@@ -1,14 +1,11 @@
 N = int(input())
 
-num = []
+num =[]*10000001
 
 for _ in range(N) : 
     num.append(int(input()))
-
+    
 num.sort()
 
-for i in num:
-    print(i)
-    
-    
-    
+for data in num:
+    print(data)
