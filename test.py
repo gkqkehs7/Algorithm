@@ -1,3 +1,2 @@
-str = "1 2"
-
-print(str[1])
+lst = ['H','E','L','L','O']
+print(' '.join(lst))
