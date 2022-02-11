@@ -1,2 +1,6 @@
-lst = ['H','E','L','L','O']
-print(' '.join(lst))
+N, K = input().split()
+
+N = int(N)
+K = int(K)
+
+print(type(N))
