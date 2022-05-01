@@ -51,5 +51,5 @@ for n in range(N):
                 temp = "[" + temp + "]"
                 res.append(temp)
                 
-for i in res:
-    print(i)
+for re in res:
+    print(re)
