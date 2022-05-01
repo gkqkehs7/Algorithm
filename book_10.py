@@ -1,49 +1,50 @@
+def open(key_size, lock_size, container):
+    for i in range(lock_size):
+        for j in range(lock_size):
+            if(container[i+key_size-1][j+key_size-1] != 1):
+                return False;
+            
+    return True
+
+def rotated(a):
+    n = len(a)
+    m = len(a[0])
+    result = [[0]* n for _ in range(m)]
+
+    for i in range(n):
+        for j in range(m):
+            result[j][n-i-1] = a[i][j]
+    return result;
+
 def solution(key, lock):
     
-    def rotated(a):
-        n = len(a)
-        m = len(a[0])
-        result = [[0]* n for _ in range(m)]
-
-        for i in range(n):
-            for j in range(m):
-                result[j][n-i-1] = a[i][j]
-        return result;
+    key_size = len(key)
+    lock_size = len(lock)
+    container_size = 2*key_size+lock_size-2
     
-    def right(a):
-        n = len(a)
-        m = len(a[0])
-        right = a;
-        for i in range(n):
-            new = right[i]
-            del new[m-1]
-            new.insert(0,0)
-            right[i] = new
+    container = [[0]*container_size for _ in range(container_size)]
+    
+    for i in range(lock_size):
+        for j in range(lock_size):
+            container[i+key_size-1][j+key_size-1] = lock[i][j]
             
-        return right;
-
-    def left(a):
-        n = len(a)
-        m = len(a[0])
-        left = a;
-        for i in range(n):
-            new = left[i]
-            del new[0]
-            new.append(0)
-            left[i] = new
-        return left;
+    rotate_size = key_size + lock_size -1;
     
-    def down(a):
-        n = len(a)
-        m = len(a[0])
-        down = a[0:n-1];
-        down.insert(0,[0]*m)
-        return down;
-
-    def up(a):
-        n = len(a)
-        m = len(a[0])
-        up = a[1:n];
-        up.append([0]*m)
-        return up;
-    
+    for i in range(4):
+        key = rotated(key)
+        for x in range(rotate_size):
+            for y in range(rotate_size):
+                
+                for i in range(key_size):
+                    for j in range(key_size):
+                        
+                        container[i+x][j+y] += key[i][j]
+                        if open(key_size, lock_size, container) == True:
+                            return True;
+                        
+                for i in range(key_size):
+                    for j in range(key_size):       
+                        container[i+x][j+y] -= key[i][j]
+                            
+    return False
+        
