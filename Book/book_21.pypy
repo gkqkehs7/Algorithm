@@ -30,7 +30,8 @@ while True:
             q = deque()
             q.append((i,j))
                     
-            sum = 0;
+            # sum = 0;
+            sum = worlds[i][j]
             
             while q:
                 x, y= q.popleft()
@@ -52,11 +53,12 @@ while True:
                         complete[x][y] = 1;
                         complete[nx][ny] = 1;
                         to_merge.append([nx,ny])
+                        sum += worlds[nx][ny]
                         q.append((nx,ny))
                     
             
-            for merge in to_merge:
-                sum += worlds[merge[0]][merge[1]]
+            # for merge in to_merge:
+            #     sum += worlds[merge[0]][merge[1]]
             avg = int(sum / len(to_merge))
             
             
