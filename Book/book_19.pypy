@@ -1,0 +1,42 @@
+from  itertools import permutations
+
+n = int(input())
+number = list(map(int, input().split()))
+
+input_calculation = list(map(int, input().split()))
+calculation = []
+for i in range(len(input_calculation)):
+    if i == 0:
+        for j in range(input_calculation[i]):
+            calculation.append("+")
+    elif i == 1:
+        for j in range(input_calculation[i]):
+            calculation.append("-")
+    elif i == 2:
+        for j in range(input_calculation[i]):
+            calculation.append("x")
+    else:
+        for j in range(input_calculation[i]):
+            calculation.append("/")
+
+
+calculation = list(permutations(calculation,n-1))
+
+results = []
+
+for cals in calculation:
+    result = number[0]
+    for i in range(len(cals)):
+        if cals[i] == "+":
+            result = result + number[i+1];       
+        elif cals[i] == "-":
+            result = result - number[i+1];       
+        elif cals[i] == "x":
+            result = result * number[i+1];       
+        elif cals[i] == "/":
+            result = int(result / number[i+1]);       
+    results.append(result)
+
+
+print(max(results))
+print(min(results))
