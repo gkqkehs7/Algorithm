@@ -1,33 +1,27 @@
-place = input()
+# 정렬 후 반복문을 돌면서 순서대로 끊어줄 것이다.
+# 정렬 nlogn + 반복문 n = o(NlogN)
+# n의 개수 100,000 시간제한 1초이므로 nlon으로 풀수있다
+import sys
+input = sys.stdin.readline
 
-col = 0
-if(place[0] == 'a'):
-    col = 1
-elif(place[0] == 'b'):
-    col = 2;  
-elif(place[0] == 'c'):
-    col = 3;  
-elif(place[0] == 'd'):
-    col = 4; 
-elif(place[0] == 'e'):
-    col = 5;  
-elif(place[0] == 'f'):
-    col = 6;  
-elif(place[0] == 'g'):
-    col = 7;  
-elif(place[0] == 'h'):
-    col = 8;  
-        
-row = int(place[1])
+n = int(input())
 
-moves = [(-2,-1),(-2,1),(2,-1),(2,1),(-1,-2),(1,-2),(-1,2),(1,2)]
+adventures = list(map(int, input().split()))
 
-count = 0;
-for move in moves:
-    hor = move[0];
-    ver = move[1];
+adventures.sort()
+
+adventures.reverse()
+
+count = adventures[0]
+team = 0;
+for adventure in adventures:
+    if count == 0:
+        count = adventure
+ 
+    count -= 1;
     
-    if((hor + col > 0) & (row + ver > 0)):
-        count += 1;
+    if count == 0:
 
-print(count)
+        team += 1;
+    
+print(team)

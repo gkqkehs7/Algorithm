@@ -1,30 +1,24 @@
-pin = list(map(int, input().split()))
-
-n = pin[0]
-m = pin[1]
-d = [0] * 10001
-
-nums = []
-
-minum = 0;
-for i in range(n):
-    num = int(input())
-    d[num] = 1;
-    nums.append(num)
+def solution(food_times, k):
     
-    if i == 0:
-        minum = num
-    else:
-        minum = min(minum, num)
-        
-for j in range(minum, m+1):
+    ing = True;
+    answer = 0;
     
-    mini = 10001;
-    for num in nums:
-        if j-num >= 0:
-            if d[j-num] != 0:
-                mini = min(mini, d[j-num]) 
+    # if sum(food_times) < k:
+    #     return -1;
     
+    while ing:    
+        no_food = True;
+        for i in range(len(food_times)):
+            if food_times[i] != 0:
+                no_food = False
+                if k == 0:
+                    answer = i + 1;
+                    ing = False
+                    break;
+                food_times[i] -= 1;
+                k -= 1;
+        if no_food == True:
+            return -1
+    return answer
     
-    d[j] = mini + 1;
-
+print(solution([7,3,2], 9))
