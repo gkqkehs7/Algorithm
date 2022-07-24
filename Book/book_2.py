@@ -1,19 +1,13 @@
-strs = input();
+import sys
+input = sys.stdin.readline
 
-string = sorted(strs)
+arr = input()
 
-split = 0;
-for i in range(len(string)):
-    if(string[i].isdigit() == False):
-         split = i;
-         break;
 
-nums = string[:split]
-notNum = string[split:]
+numbers = []
 
-sum = 0
-for num in nums: 
-    sum += int(num)
+for ar in arr:
+    numbers.append(ar)
     
-
-print("".join(notNum)+str(sum))
+numbers.pop(-1)
+print(numbers)    
