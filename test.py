@@ -1,4 +1,7 @@
-a = [(3,2) , (4,3) ,( 5,1) , (1,4)]
+a= []
 
-a.sort(reverse=True)
-print(a)
+if not a:
+    print('ge')
+    
+while a:
+    print('a')
