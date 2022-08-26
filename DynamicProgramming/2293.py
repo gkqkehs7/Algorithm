@@ -1,1 +1,18 @@
-# 보통 dp 문제에 경우의 수는 2e31보다 작다라는 말이 쓰여 았다.
+import sys
+input = sys.stdin.readline
+
+n, k = map(int, input().split())
+
+coins = []
+
+for _ in range(n):
+    coins.append(int(input()))
+    
+dp = [0] * (k+1)
+dp[0] = 1
+
+for coin in coins:
+    for j in range(coin, k+1):
+        dp[j] += dp[j-coin]
+                
+print(dp[k])
