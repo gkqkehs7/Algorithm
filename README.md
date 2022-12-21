@@ -95,6 +95,7 @@ pow(x, 2); // x의 n제곱
 ### 유클리드 호제법
 
 - 두 수의 최대공약수와 최소공배수를 구하는 알고리즘
+```cpp
 int get_gcd(int a, int b){
     if(a<b){
         int temp = a;
