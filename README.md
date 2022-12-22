@@ -1,4 +1,4 @@
-# Algorithm(c++/python)
+# Algorithm
 
 ### DFS
 
@@ -80,6 +80,53 @@ int main() {
 }
 ```
 
+### 순열과 조합
+
+- 순열
+
+```cpp
+#include <algorithm>
+    
+vector<int> perm(n);
+for(int i = 1; i <= n; i++)
+    perm.push_back(i);
+
+do {
+    for(int i = 0; i < v.size(); i++){
+       cout << perm[i] << " ";
+		}
+		cout << "\n";
+} while(next_permutation(perm.begin(), perm.end()));
+```
+
+vector와 algorithm의 next_permutation으로 구현한다.
+
+- 조합(nCk)
+
+```cpp
+#include <algorithm>
+    
+vector<int> perm(n), comb(n);
+for(int i = 1; i <= n; i++)
+    comb.push_back(i);
+
+for(int i = 0; i <= k; i++)
+    perm.push_back(1);
+
+do {
+    for(int i = 0; i < perm.size(); i++){
+			 if (perm[i] == 1) {
+				 cout << comb[i] << " ";
+			 }
+		}
+		cout << "\n";
+} while(next_permutation(perm.begin(), perm.end()));
+```
+
+위의 순열을 구하는 방식으로 k개의 1, n개의 0을 순열을 구해서
+
+1인 것만을 출력하면, 조합이 된다. 
+
 ### 에라토스테네스의 체
 
 - 어떤 수가 소수인지 확인 하는 알고리즘
@@ -95,29 +142,3 @@ pow(x, 2); // x의 n제곱
 ### 유클리드 호제법
 
 - 두 수의 최대공약수와 최소공배수를 구하는 알고리즘
-```cpp
-int get_gcd(int a, int b){
-    if(a<b){
-        int temp = a;
-        a = b;
-        b = temp;
-    }
-    
-    while(b!=0){
-        int n = a%b;
-        a = b;
-        b = n;
-    }
-    return a;
-}
-
-int main() {
-    int n,m;
-    cin >> n >> m;
-    int gcd = get_gcd(n,m);
-    int lcm = ( n * m ) / gcd;
-
-    cout << gcd << "\n";
-    cout << lcm;
-}
-```
