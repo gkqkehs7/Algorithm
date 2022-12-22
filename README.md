@@ -24,7 +24,7 @@ v.push_back(2);                      // v[10]부터 값 추가됨
 ```cpp
 #include <vector>                    
 vector<int> v[10];                   // int타입 벡터 배열(크기 : 10) 생성
-																		 // v[0] ~ v[9]까지만 사용 가능
+// v[0] ~ v[9]까지만 사용 가능
 vector<int> v[] = {{ 1, 2}, {3, 4}}; // v[0] ~ v[1]까지만 사용 가능
 
 vector<vector<int>> v;               // 2차원 백터 생성(행과 열 모두 가변)
