@@ -1,5 +1,52 @@
 # Algorithm
 
+### vector사용법
+
+- 1차원 vector
+
+```cpp
+#include <vector>                    
+vector<int> v;                       // int타입 벡터 생성
+vector<int> v = { 1, 2, 3 };         // int형 백터 생성 후 1, 2, 3 으로 초기화
+v.push_back(2);                      // v[3]부터 값 추가됨
+
+vector<int> v(10);                   // 10개의 원소를 0으로 초기화
+v.push_back(2);                      // v[10]부터 값 추가됨
+
+vector<int> v(10, 3);                // 5개의 원소를 3으로 초기화
+v.push_back(2);                      // v[10]부터 값 추가됨
+```
+
+ <br/>
+
+- 2차원 vector
+
+```cpp
+#include <vector>                    
+vector<int> v[10];                   // int타입 벡터 배열(크기 : 10) 생성
+																		 // v[0] ~ v[9]까지만 사용 가능
+vector<int> v[] = {{ 1, 2}, {3, 4}}; // v[0] ~ v[1]까지만 사용 가능
+
+vector<vector<int>> v;               // 2차원 백터 생성(행과 열 모두 가변)
+vector<int> v2;
+v.push_back(v2);
+```
+
+ <br/>
+
+- vector 삭제
+
+```cpp
+v.pop_back();                        // 마지막에 넣은 값 제거
+v.erase(vec.begin()+10);             // index 10의 값을 제거
+v.erase(vec.begin(), vec.begin()+5); // index 0~5의 값을 제거
+v.clear();                           //모든 값 제거
+```
+
+ <br/>
+
+ <br/>
+
 ### DFS
 
 ```cpp
