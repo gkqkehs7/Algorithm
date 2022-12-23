@@ -45,7 +45,35 @@ v.clear();                           //모든 값 제거
 
  <br/>
 
- <br/>
+### string사용법
+
+- 특정 문자열 찾기
+    
+    str.find(”bcd”) “bcd”가 문자열에 있는지 확인 있다면 해당 부분의 첫번째 index반환
+    
+    ```cpp
+    #include <string>
+    string s = "abcd";
+    
+    int index = s.find("bcd");
+    ```
+    
+     <br/>
+    
+- 문자열 자르기
+    
+    str.substr(index, number) 자를 index부터 자를 개수
+    
+    ```cpp
+    #include <string>
+    string s = "1234";
+    
+    string a = s.substr(0,2); // 12
+    string b = s.substr(2,2); // 34
+    ```
+    
+     <br/>
+    
 
 ### DFS
 
@@ -84,8 +112,6 @@ int main() {
     dfs(v);
 }
 ```
-
-<br/>
 
 <br/>
 
@@ -133,7 +159,7 @@ int main() {
 
 <br/>
 
-<br/>
+### 백트래킹
 
 ### 순열과 조합
 
@@ -186,8 +212,6 @@ do {
 
 <br/>
 
-<br/>
-
 ### 에라토스테네스의 체
 
 - 어떤 수가 소수인지 확인 하는 알고리즘
@@ -199,8 +223,6 @@ int x = 10;
 sqrt(x); //x의 제곱근
 pow(x, 2); // x의 n제곱 
 ```
-
-<br/>
 
 <br/>
 
@@ -235,6 +257,4 @@ int main() {
 }
 ```
 
-<br/>
-
-<br/>
+ <br/>
