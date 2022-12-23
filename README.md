@@ -183,10 +183,9 @@ void backTracking(int depth) {
 }
 ```
 
-- [백준 2661 - 좋은수열](https://www.acmicpc.net/problem/2661)
-    
-    이 문제는 n=7일때와 n=8일때 결과가 아예 달랐다. 규칙이 없다는 것이다. 따라서 완전탐색을 하기로 했고, 1231이 실패했을때 1232 이런식으로 depth가 같지만 앞 경우가 실패했을때 뒷 경우도 살펴보아야 하므로 backtracking을 이용하였다.
-    
+[백준 2661 - 좋은수열](https://www.acmicpc.net/problem/2661)
+
+이 문제는 n=7일때와 n=8일때 결과가 아예 달랐다. 규칙이 없다는 것이다. 따라서 완전탐색을 하기로 했고, 1231이 실패했을때 1232 이런식으로 depth가 같지만 앞 경우가 실패했을때 뒷 경우도 살펴보아야 하므로 backtracking을 이용하였다.
 
 <br/>
 
@@ -233,7 +232,7 @@ do {
 } while(next_permutation(perm.begin(), perm.end()));
 ```
 
-- [백준 14889 - 스타트와 링크](https://www.acmicpc.net/problem/14889)
+[백준 14889 - 스타트와 링크](https://www.acmicpc.net/problem/14889)
 
 <br/>
 
@@ -249,7 +248,7 @@ sqrt(x); //x의 제곱근
 pow(x, 2); // x의 n제곱 
 ```
 
-- [백준 1929 - 소수 구하기](https://www.acmicpc.net/problem/1929)
+[백준 1929 - 소수 구하기](https://www.acmicpc.net/problem/1929)
 
 <br/>
 
@@ -284,6 +283,6 @@ int main() {
 }
 ```
 
-- [백준 2609 - 최대공약수와 최소공배수](https://www.acmicpc.net/problem/2609)
+[백준 2609 - 최대공약수와 최소공배수](https://www.acmicpc.net/problem/2609)
 
 <br/>
