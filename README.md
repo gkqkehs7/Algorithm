@@ -161,9 +161,38 @@ int main() {
 
 ### 백트래킹
 
+- dsf와 똑같이 규칙이 존재하지 않아 모든 경우를 따져야할때 backtracking을 사용한다.
+- backtracking과 dfs가 다른점은 dfs는 한번 간곳은 visited를 true로 두어서 다신 방문하지 않지만, 백트래킹의 경우 조건에 맞지 않다면 다시 false로 바꾸어 주어서 재 방문 한다는 점이다.
+
+```tsx
+void backTracking(int depth) {
+
+    if(depth == n) { // 범위의 끝에 다달았을때 return
+        return;
+    }
+
+    for(int i=0; i<graph[now].size(); i++) {
+        int next = graph[now][i];
+
+        if(visited[next] == false) {
+            visited[next] = true;
+            backTracking(next);
+						visited[next] = false;
+        }
+    }
+}
+```
+
+- [백준 2661 - 좋은수열](https://www.acmicpc.net/problem/2661)
+    
+    이 문제는 n=7일때와 n=8일때 결과가 아예 달랐다. 규칙이 없다는 것이다. 따라서 완전탐색을 하기로 했고, 1231이 실패했을때 1232 이런식으로 depth가 같지만 앞 경우가 실패했을때 뒷 경우도 살펴보아야 하므로 backtracking을 이용하였다.
+    
+
+<br/>
+
 ### 순열과 조합
 
-- 순열
+- 순열 - vector와 algorithm의 next_permutation으로 구현한다.
 
 ```cpp
 #include <algorithm>
@@ -180,11 +209,9 @@ do {
 } while(next_permutation(perm.begin(), perm.end()));
 ```
 
-vector와 algorithm의 next_permutation으로 구현한다.
-
 <br/>
 
-- 조합(nCk)
+- 조합(nCk) - 위의 순열을 구하는 방식으로 k개의 1, n개의 0을 순열을 구해서 1인 것만을 출력하면, 조합이 된다.
 
 ```cpp
 #include <algorithm>
@@ -206,9 +233,7 @@ do {
 } while(next_permutation(perm.begin(), perm.end()));
 ```
 
-위의 순열을 구하는 방식으로 k개의 1, n개의 0을 순열을 구해서
-
-1인 것만을 출력하면, 조합이 된다. 
+- [백준 14889 - 스타트와 링크](https://www.acmicpc.net/problem/14889)
 
 <br/>
 
@@ -223,6 +248,8 @@ int x = 10;
 sqrt(x); //x의 제곱근
 pow(x, 2); // x의 n제곱 
 ```
+
+- [백준 1929 - 소수 구하기](https://www.acmicpc.net/problem/1929)
 
 <br/>
 
@@ -257,4 +284,6 @@ int main() {
 }
 ```
 
- <br/>
+- [백준 2609 - 최대공약수와 최소공배수](https://www.acmicpc.net/problem/2609)
+
+<br/>
