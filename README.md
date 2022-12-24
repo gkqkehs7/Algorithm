@@ -189,6 +189,12 @@ void backTracking(int depth) {
 
 <br/>
 
+### 투 포인터
+
+[백준 1644 - 소수의 연속합](https://www.acmicpc.net/problem/1644)
+
+<br/>
+
 ### 순열과 조합
 
 - 순열 - vector와 algorithm의 next_permutation으로 구현한다.
@@ -236,7 +242,7 @@ do {
 
 <br/>
 
-### 에라토스테네스의 체
+### 소수 판별법
 
 - 어떤 수가 소수인지 확인 하는 알고리즘
 - 어떤 x가 소수인지 확인할 때는 1부터 x의 제곱근 까지만 나누어 보는 것으로 확인할 수 있다.
@@ -249,6 +255,25 @@ pow(x, 2); // x의 n제곱
 ```
 
 [백준 1929 - 소수 구하기](https://www.acmicpc.net/problem/1929)
+
+<br/>
+
+### 에라토스테네스의 체
+
+- n이 주어졌을 때, 1 부터 n 까지의 모든 소수를 구하는 방법
+- 2 부터 n의 제곱근까지 검사하여 소수들의 배수를 지워 나간다.
+
+```cpp
+for(int i=2; i<= sqrt(n); i++) {
+    if(sosu[i] == true) {
+        for(int j= i + i; j <= n; j += i) {
+            check[j] = false;
+        }
+    }
+}
+```
+
+[백준 1644 - 소수의 연속합](https://www.acmicpc.net/problem/1644)
 
 <br/>
 
@@ -284,5 +309,7 @@ int main() {
 ```
 
 [백준 2609 - 최대공약수와 최소공배수](https://www.acmicpc.net/problem/2609)
+
+[백준 2485 - 가로수](https://www.acmicpc.net/problem/2485)
 
 <br/>
