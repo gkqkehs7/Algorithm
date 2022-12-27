@@ -5,6 +5,7 @@
     "algorithm": "cpp",
     "string": "cpp",
     "__bit_reference": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "chrono": "cpp"
   }
 }
