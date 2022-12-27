@@ -75,6 +75,8 @@ v.clear();                           //모든 값 제거
      <br/>
     
 
+### 방향성 그래프를 사용해야할때와 사용하지 않아야 할떄
+
 ### DFS
 
 ```cpp
@@ -245,13 +247,19 @@ do {
 ### 소수 판별법
 
 - 어떤 수가 소수인지 확인 하는 알고리즘
-- 어떤 x가 소수인지 확인할 때는 1부터 x의 제곱근 까지만 나누어 보는 것으로 확인할 수 있다.
+- 어떤 x가 소수인지 확인할 때는 2부터 x의 제곱근 까지만 나누어 보는 것으로 확인할 수 있다.
 
 ```cpp
 #include <cmath>
 int x = 10;
 sqrt(x); //x의 제곱근
 pow(x, 2); // x의 n제곱 
+
+for(int i=2; i<sqrt(x); i++) {
+	if(x % i == 0) {
+		sosu = false;
+	}
+}
 ```
 
 [백준 1929 - 소수 구하기](https://www.acmicpc.net/problem/1929)
@@ -264,16 +272,46 @@ pow(x, 2); // x의 n제곱
 - 2 부터 n의 제곱근까지 검사하여 소수들의 배수를 지워 나간다.
 
 ```cpp
+int check[1000000] = { 1, 1, 0 };
 for(int i=2; i<= sqrt(n); i++) {
-    if(sosu[i] == true) {
+    if(check[i] == 0) {
         for(int j= i + i; j <= n; j += i) {
-            check[j] = false;
+            check[j] = 1;
         }
     }
 }
 ```
 
 [백준 1644 - 소수의 연속합](https://www.acmicpc.net/problem/1644)
+
+<br/>
+
+### 소수 판별법+에라토스테네스의 체로 소수 판별하기
+
+- 이 방법은 배열의 최대 크기보다 훨씬 큰 수를 소수 판별할때 사용한다.
+- 먼저 에라토스테네스의 체를 이용하여 check배열을 초기화한다.
+- 최대한 소수를 벡터에 담고, 구하려는 수를 소수들로 나누어주며 나누어진다면 소수가 아니다. 소수가 아닌 수들은 소수를 약수로 갖기 때문이다.
+
+```cpp
+int check[1000000000] = { 1, 1, 0 };
+for(int i=2; i<= sqrt(n); i++) {
+    if(check[i] == 0) {
+        for(int j= i + i; j <= n; j += i) {
+            check[j] = 1;
+        }
+    }
+}
+
+for(int i=2; i<1000000000; i++) {
+	if(!check[i]) v.push_back(i);
+}
+
+for(int i = 0; i < v.size(); i++) {
+	if(target % v[i] == 0) break;
+}
+```
+
+[백준 15711 - 환상의 짝꿍](https://www.acmicpc.net/problem/15711)
 
 <br/>
 
