@@ -40,7 +40,6 @@ bool check() {
                         }
                     }            
                 }
-
                 peace++;
             }
         }
@@ -51,8 +50,6 @@ bool check() {
     } else {
         return true;
     }
-
-
 }
 
 bool check_all_melt() {
