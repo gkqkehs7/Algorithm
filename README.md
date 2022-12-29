@@ -191,6 +191,60 @@ void backTracking(int depth) {
 
 <br/>
 
+### 
+
+### **Dynamic Programming**
+
+- Top-down - 큰 문제를 작은 문제로 나누어 푸는 방식
+
+```cpp
+int dp[100] = { 0,}; 
+ 
+int fibonacci(int n) {
+    if (n <= 1) {
+        return n;
+    } else {
+        if (dp[n] > 0) {        
+            return dp[n];    
+        }
+        dp[n] = fibonacci(n-1) + fibonacci(n-2);
+        return dp[n];
+    }
+}
+```
+
+fibonacci(10)을 구하려면 fibonacci(10)을 fibonacci(9), fibonacci(8)로 나누고 1이 될때까지 이를 계속 나누어 fibonacci(10)을 구하여 dp배열에 저장한다음, 다음 재귀함수에서 fibonacci(10)이 나왔을때, 바로 꺼내어 return해주는 방식이다.
+
+10을 9,8 9를 8,7..이렇게 큰 수를 작은 수로 쪼개어 풀어 나가기 때문에, top-down방식이다.
+
+이 방식은 연산 수가 줄어들지만, 재귀함수가 너무 많이 호출되어 overhead가 존재하기 때문에 비효율 적이다. 
+
+<br/>
+
+- Bottom-up - 작은 문제를 해결하여 큰 문제를 해결하는 방식
+
+```cpp
+int dp[100] = { 0,};    
+ 
+int fibonacci(int n) {
+    dp[0] = 0;
+    dp[1] = 1;
+    int i;
+    for (i=2; i<=n; i++) {   
+         dp[i] = dp[i-1] + dp[i-2];
+    }
+    return dp[n];
+}
+```
+
+dp[0]과 dp[1]을 이용해 dp[2]를 구하고 dp[1]과 dp[2]를 이용해 dp[3]을 구하면서 원하는 수까지 다다르는 bottom-up방식이다. 
+
+이렇게 풀면 연산 수도 줄어들면서, 재귀함수로 인한 overhead가 없기 떄문에 효율적이다. dp문제는 되도록 bottom-up방식으로 풀도록 하자.
+
+[백준 1003 - 피보나치 함수](https://www.acmicpc.net/problem/1003)
+
+<br/>
+
 ### 투 포인터
 
 [백준 1644 - 소수의 연속합](https://www.acmicpc.net/problem/1644)
