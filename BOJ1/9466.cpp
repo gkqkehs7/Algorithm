@@ -1,30 +1,26 @@
 #include <iostream>
-#include <vector>
-#include <stack>
 
 using namespace std;
-int graph[100001] = { 0, };
-bool visited[100001] = { false, };
-bool team[100001] = { false, };
+const int MAX = 100001;
+int graph[MAX] = { 0, };
+bool visited[MAX] = { false, };
+bool done[MAX] = { false, };
+int cnt = 0;
 
-bool circle = false;
-vector<int> temp;
-
-void dfs(int now, int start) {
+void dfs(int now) {
     int next = graph[now];
-    // cout << next << " ";
-    if(next == start) {
-        circle = true;
-        return;
+
+    if(visited[next] == false) {
+        visited[next] = true;
+        dfs(next);
+    } else if(done[next] == false) {
+        for(int i = next; i != now; i = graph[i]) {
+            cnt++;
+        }
+        cnt++;
     }
 
-    if(visited[next] == true) {
-        return;
-    } else {
-        visited[next] = true;
-        temp.push_back(next);
-        dfs(next, start);
-    }
+    done[now] = true;
    
 }
 
@@ -40,47 +36,27 @@ int main() {
         int n;
         cin >> n;
 
-        for(int i=0; i<n; i++) {
+        for(int i=1; i<=n; i++) {
             int input;
             cin >> input;
-            graph[i+1] = input;
+            graph[i] = input;
         }
 
+        
+        cnt = 0;
         for(int i=1; i<=n; i++) {
-            int start = i;
-            temp.push_back(start);
-            
-            if(visited[start] == false) {
-                // cout << "start: " << start << " ";
-                visited[start] = true;
-                dfs(start, start);
-                // cout << "\n";
+            if(visited[i] == false) {
+                visited[i] = true;
+                dfs(i);
             }
-           
-            if(circle) {
-                for(int k=0; k<temp.size(); k++) {
-                    team[temp[k]] = true;
-                }
-                team[start] = true;
-            } else {
-                for(int k=0; k<temp.size(); k++) {
-                    visited[temp[k]] = false;
-                }
-                visited[start] = true; 
-            }
-            circle = false;
-
-            temp.clear();
         }
+      
+        cout << n - cnt << "\n";
 
-        int count = 0;
-        for(int i=1; i<=n; i++) {
-            if(team[i] == false) {
-                count++;
-            }
+
+        for(int i=0; i<MAX; i++) {
             visited[i] = false;
-            team[i] = false;
+            done[i] = false;
         }
-        cout << count << "\n";
     }
 }
