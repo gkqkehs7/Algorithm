@@ -8,12 +8,15 @@ bool done[MAX] = { false, };
 int cnt = 0;
 
 void dfs(int now) {
+    cout << now << " ";
     int next = graph[now];
+
 
     if(visited[next] == false) {
         visited[next] = true;
         dfs(next);
     } else if(done[next] == false) {
+        cout << "\ncircle!\n";
         for(int i = next; i != now; i = graph[i]) {
             cnt++;
         }
@@ -48,6 +51,7 @@ int main() {
             if(visited[i] == false) {
                 visited[i] = true;
                 dfs(i);
+                cout << "\n";
             }
         }
       
