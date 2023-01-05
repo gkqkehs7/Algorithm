@@ -2,8 +2,6 @@
 #include <algorithm>
 using namespace std;
 
-
-
 int arr[100001] = { 0, };
 int dp[100001] = { 0, }; // 나 자신까지 더했을때의 최댓값?
 
