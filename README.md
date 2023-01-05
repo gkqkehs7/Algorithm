@@ -1,4 +1,4 @@
-# 구현
+# 구현/Degree
 
 ### **소수관련 문제 1 - 소수 판별법**
 
@@ -92,19 +92,9 @@ int get_gcd(int a, int b){
     }
     return a;
 }
-
-int main() {
-    int n,m;
-    cin >> n >> m;
-    int gcd = get_gcd(n,m);
-    int lcm = ( n * m ) / gcd;
-
-    cout << gcd << "\n";
-    cout << lcm;
-}
 ```
 
-=두 수의 최대공약수와 최소공배수를 구하는 알고리즘 
+두 수의 최대공약수와 최소공배수를 구하는 알고리즘 
 
 [백준 2609 - 최대공약수와 최소공배수](https://www.acmicpc.net/problem/2609)
 
@@ -257,7 +247,7 @@ while(!q.empty()) {
 
 # 백트래킹
 
-### backTracking 기본 코드
+### BackTracking 기본 코드
 
 ```tsx
 void backTracking(int depth) {
@@ -337,7 +327,7 @@ do {
 
 # **Dynamic Programming**
 
-### Top-down - 큰 문제를 작은 문제로 나누어 푸는 방식
+### Dynamic Programming 기본 코드 (top-down 방식)
 
 ```cpp
 int dp[100] = { 0,}; 
@@ -363,10 +353,10 @@ fibonacci(10)을 구하려면 fibonacci(10)을 fibonacci(9), fibonacci(8)로 나
 
 <br/>
 
-### Bottom-up - 작은 문제를 해결하여 큰 문제를 해결하는 방식
+### Dynamic Programming 기본 코드 (bottom-up 방식)
 
 ```cpp
-int dp[100] = { 0,};    
+Dynamic Programming 기본 코드 (top-down 방식) int dp[100] = { 0,};    
  
 int fibonacci(int n) {
     dp[0] = 0;
@@ -389,9 +379,9 @@ dp[0]과 dp[1]을 이용해 dp[2]를 구하고 dp[1]과 dp[2]를 이용해 dp[3]
 
 ### 점화식
 
-  점화식은 bottom-up문제가 기초가 되어 푸는 방식이다. 계속 최선의 선택을 해나가며 최종적으로    가장 큰값이나 가장 작은 값을 찾는 것이 대부분의 문제 유형이다.  
+점화식은 bottom-up문제가 기초가 되어 푸는 방식이다. 계속 최선의 선택을 해나가며 최종적으로    가장 큰값이나 가장 작은 값을 찾는 것이 대부분의 문제 유형이다.  
 
- 문제를 푸는 방법은 **현재선택이 과거에 영향이 안 미치는 곳까지만 점화식을 사용**하는 것이다.
+문제를 푸는 방법은 **현재선택이 과거에 영향이 안 미치는 곳까지만 점화식을 사용**하는 것이다.
 
 ```cpp
 for(int i=3; i<n; i++) {
@@ -408,6 +398,71 @@ for(int i=3; i<n; i++) {
 여기서 그럼 dp[n-2]를 오르면 dp[n-3] dp[n-4]는 오른지 안오른지 어떻게 판단하나요? 라는 질문이 있을 수 있는데, dp[n-2]는 그 전의 반복문에서 이미 다루었을 것이기 떄문에 현재의 선택이 영향을 미치는 dp[n-2]에서 값을 더해준 것이다.
 
 [백준 2579 - 계단 오르기](https://www.acmicpc.net/problem/2579)
+
+[백준 11726 - 2xn 타일링 1](https://www.acmicpc.net/problem/11726)
+
+[백준 11727 - 2xn 타일링 2](https://www.acmicpc.net/problem/11727)
+
+### 연속 합
+
+```cpp
+for(int i=1; i<n; i++) {
+    dp[i] = max(dp[i-1] + arr[i], arr[i]); 
+    if(ans < dp[i]) ans = dp[i];
+}
+```
+
+줄지어진 숫자들이 있을때, 가장 합이 긴 연속된 구간의 합을 구하는 문제이다.
+
+이전의 dp값과 현재 값을 비교하여, 현재 값이 더 크다면 과감히 이전 값들은 다 버린다.
+
+여기서 dp는 지금까지의 가장 큰 값이 아니다. 정답은 ans에 저장되어있다.
+
+10 10 -1 -2 -3 이렇게 나올경우, dp[4]는 14이지만 정답은 20이기 때문이다.
+
+이 유형은 충분히 응용되어 나올 수 있으니, 방식을 이해하고 외워두자.
+
+[백준 1912 - 연속 합](https://www.acmicpc.net/problem/1912)
+
+<br />
+
+### 배낭문제(동전 문제)
+
+```
+int dp[100][100] = { 0, }
+int coin[100] = { 1, 2, 5 }
+int target = 10;
+
+for(int i=0; i<n; i++) {
+    for(int j=coin[i]; j<target; j++) {
+				dp[i][j] = dp[i-1][j] + dp[i][j-coin[i]]    
+	}
+}
+```
+
+정해진 동전들의 조합으로 특정 가격을 만드는 문제이다.
+
+dp에서 가장 유명한 배낭 문제 여러가지의 무게의 물건들을 이용해 가방을 채우는 문제와 같다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4d2d9d53-3940-4e10-b57c-23658edf4dfa/Untitled.png)
+
+예를들어 1원, 2원, 5원의 동전을 조합하여 10원을 만드는 경우의 수를 생각해보자.
+
+1열은 1원으로만 1원, 2원, 3원… 10원을 만드는 경우의 수 이고,
+
+2열은 1원과 2원으로 1원, 2원 … 10원을 만드는 경우의 수,
+
+3열은 1원 2원 5원을 모두 조합하여 1원, 2원.. 10원을 만드는 경우의 수이다.
+
+그럼 dp[2][4]는 **1원과 2원을 가지고 4원을 만드는 경우의 수** 라고 해석할 수 있겠다.
+
+그럼이건 dp[1][4] ( 1원만 가지고 4원을 만들기 ) + dp[2][4-2] ( 2원을 하나 무조건 사용하고 나머지 2원 만들기 )의 경우로 나눌 수 있고
+
+최종 점화식은 **dp[i][j] = dp[i-1][j] + dp[i][j-coin[i]]**로 구할 수 있다.
+
+1차원 dp만 사용하려면 **dp[i] += dp[i][j-coin[i]]**로 작성할 수 있다.
+
+[백준 2293 - 동전1](https://www.acmicpc.net/problem/2293)
 
 <br/>
 
