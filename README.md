@@ -438,7 +438,7 @@ for(int i=1; i<n; i++) {
 
 <br />
 
-### 배낭문제(동전 문제)
+### 동전 문제
 
 ```
 int dp[100][100] = { 0, }
@@ -452,11 +452,9 @@ for(int i=0; i<n; i++) {
 }
 ```
 
-정해진 동전들의 조합으로 특정 가격을 만드는 문제이다.
+정해진 동전들의 조합으로 특정 가격을 만드는 경우의 수를 찾는 문제이다.
 
-dp에서 가장 유명한 배낭 문제 여러가지의 무게의 물건들을 이용해 가방을 채우는 문제와 같다.
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4d2d9d53-3940-4e10-b57c-23658edf4dfa/Untitled.png)
+![https://blogfiles.pstatic.net/MjAyMzAxMDdfMTY2/MDAxNjczMDY2NDMxNzEz.3UmXc9gi2DLX1nX97EleXilZD-3pdfZ9DK3j9MHWLJ0g.MJunOHfPpfT1qiEme1Z1OpobrGD1tMtUgC_p5xbbVu8g.PNG.gkqkehs10/SE-17595f5d-7b46-41b7-8ba2-66dfd6989c7e.png?type=w1](https://blogfiles.pstatic.net/MjAyMzAxMDdfMTY2/MDAxNjczMDY2NDMxNzEz.3UmXc9gi2DLX1nX97EleXilZD-3pdfZ9DK3j9MHWLJ0g.MJunOHfPpfT1qiEme1Z1OpobrGD1tMtUgC_p5xbbVu8g.PNG.gkqkehs10/SE-17595f5d-7b46-41b7-8ba2-66dfd6989c7e.png?type=w1)
 
 예를들어 1원, 2원, 5원의 동전을 조합하여 10원을 만드는 경우의 수를 생각해보자.
 
@@ -477,6 +475,36 @@ dp에서 가장 유명한 배낭 문제 여러가지의 무게의 물건들을 �
 [백준 2293 - 동전1](https://www.acmicpc.net/problem/2293)
 
 <br/>
+
+### 0-1 배낭문제
+
+```cpp
+for(int i=1; i<=n; i++) {
+    int wei = v[i-1].first;
+    int val = v[i-1].second;
+    for(int j=1; j<=k; j++) {
+        if( j >= wei ) {
+            dp[i][j] = max(dp[i-1][j-wei] + val, dp[i-1][j]);
+        } else {
+            dp[i][j] = dp[i-1][j];
+        }   
+    }
+}
+```
+
+특정 무게, 특정가치의 물건들을 넣어서 정해진 무게의 배낭에 가장 비싼가치를 담는 문제이다. 
+
+위의 동전문제와는 조금 다르다. 우선 동전은 정해진 가격을 맞춰야 하지만, 베낭은 꼭 최대무게를 맞추지 않아도 된다. 그리고 동전문제는 경우의수를 구하는 문제이고, 배낭문제는 최대값을 구하는 문제이다.
+
+![https://blogfiles.pstatic.net/MjAyMzAxMDdfMjcy/MDAxNjczMDY3MTUzMDA2.cINIJLaSoT-4OAaB0fejL1OxNl3-gKIfX69Pthbsansg.-Gnml881lHnNhZrXOyv00B7ep34MWKgS-2D6oD-tD58g.PNG.gkqkehs10/SE-7797bb43-1012-4fdd-b9a4-d7f4de2baf1e.png?type=w1](https://blogfiles.pstatic.net/MjAyMzAxMDdfMjcy/MDAxNjczMDY3MTUzMDA2.cINIJLaSoT-4OAaB0fejL1OxNl3-gKIfX69Pthbsansg.-Gnml881lHnNhZrXOyv00B7ep34MWKgS-2D6oD-tD58g.PNG.gkqkehs10/SE-7797bb43-1012-4fdd-b9a4-d7f4de2baf1e.png?type=w1)
+
+동그라미 친 부분을 설명하자면, 3kg/6원짜리를 사용하지않고 7kg를 만드는 방법과 3kg/6원짜리를 사용하고 7kg를 만드는 방법 중 큰 값을 택하는 그림이다.
+
+그럼 동전은 **dp[i][j-coin[i]]** 이렇게 같은 행에서 가져오고, 이 문제는 **dp[i-1][j-wei]** 이렇게 이 전 행에서 가져오는가? 당연히 동전은 여러개를 사용할 수 있고 이 물건들은 하나만 사용 가능 하기 떄문이다.
+
+[백준 12865 - 평범한 배낭](https://www.acmicpc.net/problem/12865)
+
+<br />
 
 # 투 포인터
 
