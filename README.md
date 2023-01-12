@@ -286,7 +286,7 @@ for(int i = 1; i <= n; i++)
     perm.push_back(i);
 
 do {
-    for(int i = 0; i < v.size(); i++){
+    for(int i = 0; i < perm.size(); i++){
        cout << perm[i] << " ";
 		}
 		cout << "\n";
@@ -529,6 +529,41 @@ for(int i=1; i<n; i++) {
 [백준 11053 - 가장 긴 증가하는 부분수열](https://www.acmicpc.net/problem/11053)
 
 <br/>
+
+# Binary Search
+
+### binary search 기본 코드
+
+```tsx
+void binary_search(int start, int end, int target) {
+
+    if(start > end) return;
+
+    int mid = (start+end) / 2;
+ 
+    if(mid >= target) {
+        binary_search(mid + 1, end, m); 
+    } else {
+        binary_search(start, mid - 1, m);
+    }
+}
+```
+
+범위를 반씩 줄여가며 탐색하는 방법이다.
+
+**탐색범위가 수상하리 만큼 넓을 때, 이진탐색을 먼저 떠올려야한다. (** 1억이상되는 범위 탐색 문제들 )
+
+이진 탐색은 처음부터 끝까지 탐색하는 O(N)타임보다 적은 O(logN)타임이 소요된다.
+
+이진 탐색 문제를 풀때 주의할 점
+
+- 정렬된 리스트에만 이진 탐색이 가능하다!
+- 범위가 매우 넓어 int형을 넘어서 overflow가 발생할 수 있으므로 **잘 확인하여 자료형을 사용하자.**
+- 탐색 범위를 잘 제한하자. 0이 될 수도, 1이 될 수도, 배열의 첫 번째 원소가 될 수 있다.
+
+[백준 1654 - 랜선자르기](https://www.acmicpc.net/status?user_id=gkqkehs7&problem_id=1654&from_mine=1)
+
+<br />
 
 # 투 포인터
 
