@@ -559,9 +559,171 @@ void binary_search(int start, int end, int target) {
 
 - 정렬된 리스트에만 이진 탐색이 가능하다!
 - 범위가 매우 넓어 int형을 넘어서 overflow가 발생할 수 있으므로 **잘 확인하여 자료형을 사용하자.**
+    
+    ( c++의 경우 int의 범위는 -21억~21억)
+    
 - 탐색 범위를 잘 제한하자. 0이 될 수도, 1이 될 수도, 배열의 첫 번째 원소가 될 수 있다.
 
 [백준 1654 - 랜선자르기](https://www.acmicpc.net/status?user_id=gkqkehs7&problem_id=1654&from_mine=1)
+
+<br />
+
+# 우선순위 큐
+
+### priority queue 기본 코드
+
+**계속하여 최소값이나 최대값을 조회**하는 문제이거나, 새롭게 **원소가 추가 될때마다 정렬**을 계속해주는 문제라면 우선순위 큐를 먼저 떠올려야한다.
+
+- 내림차순으로 정렬하기
+
+```cpp
+#include <queue>
+priority_queue<int> pq;
+
+pq.push(1);
+pq.push(2);
+pq.push(3);
+pq.push(4);
+
+while(!pq.empty()) {
+	cout << pq.top() << " ";
+	pq.pop();
+}
+// 4 3 2 1
+```
+
+priority queue는 기본적으로 내림차순으로 정렬된다.
+
+<br/>
+
+- 오름차순으로 정렬하기
+
+```cpp
+#include <queue>
+priority_queue<int, vector<int>, greater<int>> pq;
+
+pq.push(1);
+pq.push(2);
+pq.push(3);
+pq.push(4);
+
+while(!pq.empty()) {
+	cout << pq.top() << " ";
+	pq.pop();
+}
+// 1 2 3 4
+```
+
+<br/>
+
+- pair형태로 내림차순 정렬하기
+
+```cpp
+#include <queue>
+priority_queue<pair<int ,int>> pq;
+
+pq.push({ 1, 2 });
+pq.push({ 3, 4 });
+pq.push({ 5, 6 });
+pq.push({ 7, 8 });
+
+while(!pq.empty()) {
+	cout << pq.top().first << " " << pq.top().second << "\n";
+	pq.pop();
+}
+// 7 8
+// 5 6
+// 3 4 
+// 1 2
+```
+
+pair형태로 저장하면 첫 번째 인자 기준 내림차순으로 정렬되고, 
+
+첫 번째 인자가 같다면 두 번째 인자 기준으로 정렬된다.
+
+<br/>
+
+- pair형태로 오름차순 정렬하기
+
+```cpp
+#include <queue>
+priority_queue<pair<int ,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+
+pq.push({ 1, 2 });
+pq.push({ 3, 4 });
+pq.push({ 5, 6 });
+pq.push({ 7, 8 });
+
+while(!pq.empty()) {
+	cout << pq.top().first << " " << pq.top().second << "\n";
+	pq.pop();
+}
+// 1 2
+// 3 4
+// 5 6 
+// 7 8
+```
+
+<br/>
+
+하지만 우선순위 큐는 특정 index에 대해 접근이 되지 않기 때문에, 
+
+특정 index에 접근하기 위해선 우선순위 큐 대신 set이나 map을 사용한다.
+
+- set - 중복을 허용하지 않으며, 원소들 오름차순 정렬
+
+```cpp
+#include <set>
+
+set<int> s;
+set<int>::iterator iter;
+
+s.insert(1);
+s.insert(2);
+```
+
+<br />
+
+- multiset - 중복을 허용하며, 원소들 오름차순 정렬
+
+```cpp
+#include <set>
+
+multiset<int> ms;
+multiset<int>::iterator iter;
+
+ms.insert(1);
+ms.insert(1);
+ms.insert(2);
+```
+
+<br />
+
+- map - key의 중복을 허용하지 않으며, 원소들 key - value 형태로 오름차순 정렬
+
+```cpp
+#include <map>
+
+map<int> m;
+map<int>::iterator iter;
+
+m.insert(1);
+m.insert(2);
+```
+
+<br />
+
+- multimap - key의 중복을 허용하며, 원소들 key - value 형태로 오름차순 정렬
+
+```cpp
+#include <map>
+
+multimap<int, string> mm;
+multimap<int, string>::iterator iter;
+
+mm.insert({ 1, "hello" });
+mm.insert({ 2, "world" });
+```
 
 <br />
 
