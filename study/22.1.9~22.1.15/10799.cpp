@@ -21,15 +21,15 @@ int main() {
         }
 
         if(s[i] == '(' && i != s.length()) {
-          if(s[i+1] == ')') {
+          if(s[i+1] == ')') { // ( 다음에 바로 ) 가 나오면 laser
             laser.push_back({ i, i+1 });
             jump = true;
             // cout << "laser! " << i << " " << i + 1 << "\n";
-          } else {
+          } else { // ( 다음에 바로 ) 가 나오지 않으면 막대기의 시작이므로 스택에 시작번호 저장
             stick.push(i);
           }
         } else {
-            sticks.push_back({ stick.top(), i });
+            sticks.push_back({ stick.top(), i }); // ( 가 나오면 스택의 가장 위의 값과 합쳐서 벡터에 저장
             stick.pop();
         }
     }
@@ -38,7 +38,7 @@ int main() {
     // 4 9 | 10 13 | 3 16 | 2 17 | 18 21 
 
     int answer = 0;
-    for(int i=0; i<sticks.size(); i++) {
+    for(int i=0; i<sticks.size(); i++) { // 조각의 개수는 자신을 통과하는 laser개수 + 1
         // cout << sticks[i].first << "  " << sticks[i].second << " | ";
         
         int piece = 0;
