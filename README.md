@@ -530,6 +530,43 @@ for(int i=1; i<n; i++) {
 
 <br/>
 
+# 정렬
+
+정렬을 어떻게 정렬할 것인가가 가장 중요하다.
+
+**처음 값을 기준으로 정렬할 것인가?**
+
+**마지막 값을 기준으로 정렬할 것인가?**
+
+**두 수의 차를 기준으로 정렬할 것인가?**
+
+위 세가지를 순서대로 해보고 예외가 발생하지 않는 정렬을 선택하자
+
+### **마지막 값을 기준으로 정렬**
+
+```cpp
+for(int i=0; i<lec.size(); i++) {
+    int start_time = lec[i].second;
+    int end_time = lec[i].first;
+    
+    while(start <= end) {
+        if(check[start] == false) {
+            check[start] = true;
+            break;
+        }
+        start++;
+    }
+}
+```
+
+다양한 범위의 숫자들을 각자 하나의 방에 최대한 많이 넣는 경우에 사용한다
+
+1,2,3,4방이 있고 2-3, 1-7, 1-7, 1-7 숫자들이 있다면 처음 값을 기준으로 정렬한다면 2-3은 들어갈 수 없기 때문이다.
+
+[백준 9576 - 책 나눠주기](https://www.acmicpc.net/problem/9576)
+
+<br/>
+
 # Binary Search
 
 ### binary search 기본 코드
@@ -726,9 +763,3 @@ mm.insert({ 2, "world" });
 ```
 
 <br />
-
-# 투 포인터
-
-[백준 1644 - 소수의 연속합](https://www.acmicpc.net/problem/1644)
-
-<br/>
