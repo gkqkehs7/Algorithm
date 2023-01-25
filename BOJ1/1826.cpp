@@ -18,35 +18,34 @@ int main() {
 
     cin >> total >> oil;
 
+    int left_oil = oil;
+    int now = 0;
     sort(station, station + n);
-    priority_queue<pair<int, int>> pq;
-
-    int start = 0;
+    priority_queue<int> pq;
+    
     int idx = 0;
+    int count = 0;
     bool cango = true;
-    while(start + oil < total) {
-
-        while(idx < n && station[idx].first <= start + oil) {
-            pq.push({ station[idx].second, station[idx].first });
+    while(oil < total) {
+        while(idx < n && oil >= station[idx].first) {
+            pq.push(station[idx].second);
             idx++;
         }
 
-        oil = oil - ( pq.top().second - start ) + pq.top().first;
-        start = pq.top().second;
-        pq.pop();
-        
-        cout << "start: " << start << " oil: " << oil << " 다음 주유소: " << station[idx].first << "\n";
-        while(!pq.empty() && idx < n && start + oil < station[idx].first) {
-            cout << "한번에 못가므로 이전 주유소를 들립니다 " << pq.top().first << " oil추가\n";
-            oil += pq.top().first;
-            pq.pop();
-        }
-        
-        if(start + oil < station[idx].first) {
+        if(pq.empty()) {
             cango = false;
+            break;
         }
+
+        oil += pq.top();
+        pq.pop();
+        count++;
+    }
+    
+    if(cango) {
+        cout << count;
+    } else {
+        cout << -1;
     }
 
-    cout << cango;
-  
 }

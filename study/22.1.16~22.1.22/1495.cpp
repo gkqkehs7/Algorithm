@@ -11,7 +11,6 @@ void dfs(int start, int depth) {
     if(start > m || start < 0) return;
     // cout << "depth: " << depth << " start: " << start << "\n";
     if(depth == n) {
-       
         if(start > answer)  {
             answer = start;
         }
