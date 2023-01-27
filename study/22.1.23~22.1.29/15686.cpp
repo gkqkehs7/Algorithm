@@ -21,7 +21,6 @@ int main() {
                 chick.push_back({ i,j });
             } else {
                 map[i][j] = input;
-                // house.push_back({ i,j });
             }
         }
     }
@@ -33,7 +32,7 @@ int main() {
     }
  
     // cout << comb.size() << "\n";
-    int min_chick_dis = 1000000000;
+    int min_chick_dis = 99999999;
     do {
 
         vector<pair<int, int>> temp;
@@ -48,7 +47,7 @@ int main() {
         for(int i=0; i<n; i++) {
             for(int j=0; j<n; j++) {
                 if(map[i][j] == 1) {
-                    int min_dis = 1000000000;
+                    int min_dis = 99999999;
                     for(int k=0; k<temp.size(); k++) {
                         int dis = abs(temp[k].first - i) + abs(temp[k].second - j);
                         if(dis < min_dis) {
