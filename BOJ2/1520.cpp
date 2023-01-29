@@ -3,29 +3,28 @@
 using namespace std;
 int n, m;
 int map[501][501];
-int dp[501][501] = { 0, };
-bool visited[501][501] = { false };
+int dp[501][501] = { -1 };
 int dx[4] = { 0, 1, 0, -1 };
 int dy[4] = { 1, 0, -1, 0 };
-int ans = 0;
 
-void dfs(int x, int y) {
+int dfs(int x, int y) {
+    
     if(x == n-1 && y == m-1) {
-        ans++;
-        return;
+        return 1;
     }
+    if(dp[x][y] != -1) return dp[x][y];
 
+    dp[x][y] = 0;
     for(int i=0; i<4; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
 
-        if(nx < n && nx >= 0 && ny < m && ny >=0 && visited[nx][ny] == false && map[x][y] > map[nx][ny]) {
-           
-            visited[nx][ny] = true;
-            dfs(nx, ny);
-            visited[nx][ny] = false;
+        if(nx < n && nx >= 0 && ny < m && ny >=0 && map[x][y] > map[nx][ny]) {
+            dp[x][y] += dfs(nx, ny);
         }
     }
+
+    return dp[x][y];
 }
 
 int main() {
@@ -41,7 +40,5 @@ int main() {
             map[i][j] = input;
         }
     }
-    dfs(0, 0);
-
-    cout << ans;
+    cout << dfs(0, 0);   
 }
