@@ -270,9 +270,17 @@ void backTracking(int depth) {
 
 dsf와 똑같이 규칙이 존재하지 않아 모든 경우를 따져야할때 backtracking을 사용한다. 
 
-backtracking과 dfs가 다른점은 dfs는 한번 간곳은 visited를 true로 두어서 다신 방문하지 않지만, 백트래킹의 경우 조건에 맞지 않다면 다시 false로 바꾸어 주어서 재 방문 한다는 점이다.
+backtracking과 dfs가 다른점은 dfs는 한번 간곳은 visited를 true로 두어서 다신 방문하지 않지만, 
+
+백트래킹의 경우 조건에 맞지 않다면 다시 false로 바꾸어 주어서 재방문 한다는 점이다.
+
+**백트래킹의 경우 memozation기법을 항상 염두하자. 깊이와 값이 같다면 재방문 하지 않아도 된다.**
+
+dp와 백트래킹은 재방문 여부에 따라 한끗 차이인 것이다.
 
 [백준 2661 - 좋은수열](https://www.acmicpc.net/problem/2661)
+
+[백준 1495 - 기타리스트](https://www.acmicpc.net/problem/1495)
 
 <br />
 
@@ -326,6 +334,8 @@ do {
 <br/>
 
 # **Dynamic Programming**
+
+dynamic programming의 기본원리는 **한 번 계산한 값은 다시 계산하지 않는다**에 있다 기억하자.
 
 ### Dynamic Programming 기본 코드 (top-down 방식)
 
@@ -506,6 +516,47 @@ for(int i=1; i<=n; i++) {
 
 <br />
 
+### 경로갯수 찾기 문제
+
+```cpp
+int dfs(int x, int y) {
+    
+    if(x == n-1 && y == m-1) {
+        return 1;
+    }
+
+    if(dp[x][y] != -1) return dp[x][y];
+
+    dp[x][y] = 0;
+    for(int i=0; i<4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        if(nx < n && nx >= 0 && ny < m && ny >= 0) {
+            dp[x][y] += dfs(nx, ny);
+        }
+    }
+
+    return dp[x][y];
+}
+```
+
+(0,0)에서 (n,m)까지가는 경로의 개수를 찾는 문제이다. 문제별로 갈 수 없는 길과 갈 수 있는 길로 나
+
+뉜다. (x,y)에서 dfs를 4개의 길마다 해서 도착점에 오면 1을 return하고 dp[x][y]에 저장한다.
+
+만약 dp값이 있는곳을 방문했다면, 탐색하지 않고 dp값을 return한다.
+
+**나부터 목적지까지 가는 경로의 개수는 n개이니 탐색하지마세요**라는 것이다. 따라서 방문여부인 
+
+visited배열도 필요가 없다.
+
+이 문제는 backtracking으로 풀 수 있지만, dp로 푸는게 훨씬 시간이 적게든다.
+
+[백준 1520 - 내리막길](https://www.acmicpc.net/problem/1520)
+
+<br/>
+
 ### LIS - 가장 긴 증가하는 부분수열(dp)
 
 ```cpp
@@ -529,6 +580,50 @@ for(int i=1; i<n; i++) {
 [백준 11053 - 가장 긴 증가하는 부분수열](https://www.acmicpc.net/problem/11053)
 
 <br/>
+
+### LCS - 최장 부분 공통수열(길이 구하기)
+
+```cpp
+for(int i=1; i <= s1.length(); i++) { 
+    for(int j=1; j <= s2.length(); j++) {
+        if(s1[i-1] == s2[j-1]) {
+            dp[i][j] = dp[i-1][j-1] + 1;
+        } else {
+            dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+        }   
+    }
+}
+```
+
+두 문자열이 있을때 공통으로 포함된 가장 긴 문자열의 길이를 구하는 문제이다.
+
+두 문자열이 같다면 왼쪽위에서 가져오고, 같지 않다면 위나 왼쪽 중 큰 값을 가져 오면 된다.
+
+사실 잘 이해가 되지 않는다. 관련 문제를 더 풀어보고 마저 작성해야겠다.
+
+### LCS - 최장 부분 공통수열(문자열 구하기)
+
+```cpp
+string ans = "";
+int i = s1.length();
+int j = s2.length();
+
+while(dp[i][j] != 0) {
+    if(dp[i][j] == dp[i-1][j]) {
+        i--;
+    } else if(dp[i][j] == dp[i][j-1]) {
+        j--;
+    } else if(dp[i][j] == dp[i-1][j-1] + 1) {
+        ans += s1[i-1];
+        i--;
+        j--;
+    }
+}
+```
+
+위의 dp로 구한 값을 역 추적하면서 증가되었던 해당 부분의 문자를 더해주고 역으로 출력해 주면 
+
+공통부분의 문자열을 구할 수 있다.
 
 # 정렬
 
@@ -610,6 +705,12 @@ void binary_search(int start, int end, int target) {
 ### priority queue 기본 코드
 
 **계속하여 최소값이나 최대값을 조회**하는 문제이거나, 새롭게 **원소가 추가 될때마다 정렬**을 계속해주는 문제라면 우선순위 큐를 먼저 떠올려야한다.
+
+왜 우선순위 큐를 사용하는가?
+
+조회할때마다 max나 min의 변수를 이용하여 최소/최댓값을 계속 변경해 나가면 되는데 왜 우선순위 큐를 사용할까? 
+
+보통 우선순위 큐를 사용하는 문제는 queue에  저장되어있는 최댓값 다음의 값을 다음 반복문에서 또 사용하기 때문이다.
 
 - 내림차순으로 정렬하기
 
@@ -761,5 +862,46 @@ multimap<int, string>::iterator iter;
 mm.insert({ 1, "hello" });
 mm.insert({ 2, "world" });
 ```
+
+<br />
+
+# 기타 알고리즘
+
+## 분리집합
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1a7e34fd-e14f-4583-91b6-81e80a8a67f0/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c812ac27-807d-4c2d-8114-6c4f7933b515/Untitled.png)
+
+```cpp
+int find_parent(int child) {
+    int next = set[child];
+    if(next == -1) return child;
+    
+    int parent = find_parent(next);
+    set[child] = parent;
+    return parent;
+    
+}
+
+void merge(int a, int b) {
+    int a_parent = find_parent(a);
+    int b_parent = find_parent(b);
+    if(a_parent == b_parent) return;
+
+		// child_num[c2_p] += child_num[c1_p]; 자식의 수도 저장하고 싶을때
+    set[a_parent] = b_parent;
+}
+```
+
+ 원소의 value를 부모의 index를 가리키게 해서 하나의 집합을 이루게 하는 방식이다.
+
+첫번째 그림의 왼쪽 처럼 줄지어 이어가면 시간복잡도가 늘어나므로, 공통부모를 통일해준다.
+
+두개의 집합을 합쳐줄때는 한쪽 집합의 부모가 다른쪽 집합의 부모를 가리키게 한 다음,
+
+또다시 공통 부모를 통일해준다.
+
+[백준 1717 - 집합의 표현](https://www.acmicpc.net/problem/1717)
 
 <br />
