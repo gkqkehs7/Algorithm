@@ -6,6 +6,10 @@ int dx[4] = { 0, 1, 0, -1 };
 int dy[4] = { 1, 0, -1, 0 };
 
 int main() {
+     ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    
     int testcase = 1;
     while(true) {
         int n;
