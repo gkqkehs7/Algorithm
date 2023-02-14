@@ -2,6 +2,16 @@
 #include <algorithm>
 using namespace std;
 
+
+int temp(int start, int end) {
+
+    int res = 0;
+    for(int i = start; i < end; i++) {
+        res = min(res, temp(start, i) + temp(i + 1, end));
+    }
+    return res;
+}
+
 int main() {
     // ios::sync_with_stdio(false);
     // cin.tie(NULL);
@@ -28,7 +38,9 @@ int main() {
         }
 
         for(int i=1; i<n; i++) {
-        
+            for(int j=i; j<n; j++) {
+                dp[i][j] = dp[i][]
+            }
             
         }
 
