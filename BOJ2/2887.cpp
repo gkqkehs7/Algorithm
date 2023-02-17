@@ -25,7 +25,13 @@ void merge(int child1, int child2) {
     int parent2 = get_parent(child2);
 
     if(parent1 == parent2) return;
-    tree[parent2] = parent1;
+
+    if(parent1 > parent2) {
+        tree[parent1] = parent2;
+    } else {
+        tree[parent2] = parent1;
+    }
+   
 }
 
 
