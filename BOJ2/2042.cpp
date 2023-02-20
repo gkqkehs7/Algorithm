@@ -40,16 +40,17 @@ int main() {
 
     segment_tree(1, n, 1);
     
-    for(int i=0; i< m + k; i++) {
+    for(int i=0; i < m + k; i++) {
         long long a, b, c;
         cin >> a >> b >> c;
         
         if(a == 1) {
+            long long diff = c - arr[b];
             arr[b] = c;
-            update(b, c - arr[b], 1, 1, n);
+            update(b, diff, 1, 1, n); 
+            
         } else {
             cout << sum(1, 1, n, b, c) << "\n";
         }   
     }
-
 }
