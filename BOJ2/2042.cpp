@@ -4,7 +4,6 @@ using namespace std;
 long long arr[1000001];
 long long tree[4000004];
 
-
 long long segment_tree(int start, int end, int node) {
     if(start == end) return tree[node] = arr[start];
 
