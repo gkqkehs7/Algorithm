@@ -337,6 +337,10 @@ do {
 
 dynamic programming의 기본원리는 **한 번 계산한 값은 다시 계산하지 않는다**에 있다 기억하자.
 
+dp문제 풀이에서 보았는데 문제를 보았을때 바로 풀이 방법이 생각나지 않는다면 dp를 의심하라고 하였다.
+
+dp를 의심하고 문제를 작은 문제로 쪼개어 생각하자. 그렇다면 해답이 나올 것이다.
+
 ### Dynamic Programming 기본 코드 (top-down 방식)
 
 ```cpp
@@ -575,9 +579,13 @@ for(int i=1; i<n; i++) {
 
 반복문을 돌며 자신 앞까지 자신보다 작은 값 중, 가장 dp값이 큰 dp값에 + 1을 해주면 된다.
 
-이 문제는 이진탐색으로 풀면 O(nlogn)시간 안에 해결할 수 있기 때문에, 이진탐색을 쓰는 것을 더 추천한다.
+이 문제는 이진탐색으로 풀면 O(nlogn)시간 안에 해결할 수 있기 때문에, 이진탐색을 쓰는 것을 더 추
+
+천한다.
 
 [백준 11053 - 가장 긴 증가하는 부분수열](https://www.acmicpc.net/problem/11053)
+
+[백준 2631 - 줄세우기](https://www.acmicpc.net/problem/2631)
 
 <br/>
 
@@ -635,7 +643,7 @@ while(dp[i][j] != 0) {
 
 **두 수의 차를 기준으로 정렬할 것인가?**
 
-위 세가지를 순서대로 해보고 예외가 발생하지 않는 정렬을 선택하자
+위 세가지를 순서대로 해보고 예외가 발생하지 않는 정렬을 선택하자.
 
 ### **마지막 값을 기준으로 정렬**
 
@@ -656,7 +664,9 @@ for(int i=0; i<lec.size(); i++) {
 
 다양한 범위의 숫자들을 각자 하나의 방에 최대한 많이 넣는 경우에 사용한다
 
-1,2,3,4방이 있고 2-3, 1-7, 1-7, 1-7 숫자들이 있다면 처음 값을 기준으로 정렬한다면 2-3은 들어갈 수 없기 때문이다.
+1,2,3,4방이 있고 2-3, 1-7, 1-7, 1-7 숫자들이 있다면 처음 값을 기준으로 정렬한다면 2-3은 들어갈 수 
+
+없기 때문이다.
 
 [백준 9576 - 책 나눠주기](https://www.acmicpc.net/problem/9576)
 
@@ -683,7 +693,7 @@ void binary_search(int start, int end, int target) {
 
 범위를 반씩 줄여가며 탐색하는 방법이다.
 
-**탐색범위가 수상하리 만큼 넓을 때, 이진탐색을 먼저 떠올려야한다. (** 1억이상되는 범위 탐색 문제들 )
+**탐색범위가 수상하리 만큼 넓을 때, 이진탐색을 먼저 떠올려야한다. (**1억이상되는 범위 탐색 문제들)
 
 이진 탐색은 처음부터 끝까지 탐색하는 O(N)타임보다 적은 O(logN)타임이 소요된다.
 
@@ -706,166 +716,256 @@ void binary_search(int start, int end, int target) {
 
 **계속하여 최소값이나 최대값을 조회**하는 문제이거나, 새롭게 **원소가 추가 될때마다 정렬**을 계속해주는 문제라면 우선순위 큐를 먼저 떠올려야한다.
 
-왜 우선순위 큐를 사용하는가?
+왜 우선순위 큐를 떠올려야하는가? 조회할때마다 max나 min의 변수를 이용하여 최소/최댓값을 계속 변경해 나가면 되는데 왜 우선순위 큐를 사용할까? 보통 우선순위 큐를 사용하는 문제는 queue에  저장되어있는 최댓값 다음의 값을 다음 반복문에서 또 사용하기 때문이다.
 
-조회할때마다 max나 min의 변수를 이용하여 최소/최댓값을 계속 변경해 나가면 되는데 왜 우선순위 큐를 사용할까? 
+### 보석 가방 문제
 
-보통 우선순위 큐를 사용하는 문제는 queue에  저장되어있는 최댓값 다음의 값을 다음 반복문에서 또 사용하기 때문이다.
+```
+sort(bag, bag + k); // 가방 오름차순 정렬
+sort(jew, jew + n); // 보석 무게 오름차순으로 정렬 ( 무게 같으면 가격 오름차순 )
 
-- 내림차순으로 정렬하기
+long long sum = 0;
+int idx = 0;
+for(int i=0; i<k; i++) { 
+
+    // 가방 무게보다 가벼운 보석들의 가격을 pq에 담음
+    while(idx < n && jew[idx].first <= bag[i]) {
+        pq.push(jew[idx].second);
+        idx++;
+    }
+
+    // 가장 가격이 높은 보석의 가격을 sum에 합치면서 pq에서 pop
+    // 다음 가방에도 pq에서 가장 가격이 높은게 들어감
+    // 무게가 가방보다 낮은것들만 위에서 걸러서 넣었기 때문에 가능
+    if(!pq.empty()) {
+        sum += pq.top();
+        pq.pop();
+    }
+}
+```
+
+가방들에 넣을 수 있는 최대무게는 정해져 있고, 특정 무게들의 보석들이 있을때, 얼마나 많은 보석을 넣을 수 있는지를 알아내는 문제이다. 가방과 보석을 정렬한 다음, 가방 무게보다 낮은 보석들을 pq에 담아나가면서 계속 넣어주면 된다.
+
+[백준 1202 - 보석 도둑](https://www.acmicpc.net/problem/1202)
+
+[백준 9576 - 책 나눠주기](https://www.acmicpc.net/problem/9576)
+
+# 최단거리 알고리즘
+
+### 다익스트라 알고리즘
 
 ```cpp
-#include <queue>
-priority_queue<int> pq;
+int dp[20001];
+vector<pair<int,int>> graph[20001];
+priority_queue<pair<int ,int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
-pq.push(1);
-pq.push(2);
-pq.push(3);
-pq.push(4);
+pq.push(make_pair( 0, start ));
+dp[start] = 0;
 
 while(!pq.empty()) {
-	cout << pq.top() << " ";
-	pq.pop();
+    
+    int dist = pq.top().first;
+    int now = pq.top().second;
+    pq.pop();
+
+    if(dp[now] < dist) continue;
+
+    for(int i=0; i<graph[now].size(); i++) {
+        int next = graph[now][i].first;
+        int cost = dist + graph[now][i].second;
+
+        if(cost < dp[next]) {
+            dp[next] = cost;
+            pq.push(make_pair( cost, next ));
+        }
+     
+    }
 }
-// 4 3 2 1
 ```
 
-priority queue는 기본적으로 내림차순으로 정렬된다.
+노드간의 거리가 주어질때, 특정 한 노드로부터 다른 모든 노드까지의 최단거리를 구하는 알고리즘이다.
 
-<br/>
+만약 우선순위 큐를 사용하지 않는다면, 일반적인 완전탐색과 같은 알고리즘이 된다. 다익스트라 알고리즘의 빠름은 **현재 노드에서 가장 비용이 적게드는 간선을 선택하여 그 노드를 먼저 방문**하는 방식에 있다. 그렇지 않고 비용에 상관없이 방문하는 방식을 택한다면 나중에 가장 비용이 적게드는 간선을 통과하여 노드를 방문했을때, 다시 최단거리로 업데이트 해주어야 하니 시간이 곱절로 들게된다.
 
-- 오름차순으로 정렬하기
+음의 간선은 처리 불가능
+
+[백준 1753 - 최단경로](https://www.acmicpc.net/problem/1753)
+
+### 플루이드 워셜 알고리즘
 
 ```cpp
-#include <queue>
-priority_queue<int, vector<int>, greater<int>> pq;
-
-pq.push(1);
-pq.push(2);
-pq.push(3);
-pq.push(4);
-
-while(!pq.empty()) {
-	cout << pq.top() << " ";
-	pq.pop();
+for(int i=0; i<1001; i++) {
+    for(int j=0; j<1001; j++) {
+        if(i == j) dp[i][j] = 0;
+        else dp[i][j] = 1000000000;
+    }
 }
-// 1 2 3 4
-```
 
-<br/>
-
-- pair형태로 내림차순 정렬하기
-
-```cpp
-#include <queue>
-priority_queue<pair<int ,int>> pq;
-
-pq.push({ 1, 2 });
-pq.push({ 3, 4 });
-pq.push({ 5, 6 });
-pq.push({ 7, 8 });
-
-while(!pq.empty()) {
-	cout << pq.top().first << " " << pq.top().second << "\n";
-	pq.pop();
+for(int k=1; k<=n; k++) {
+    for(int i=1; i<=n; i++) {
+        for(int j=1; j<=n; j++) {
+            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]);   
+        }
+    }
 }
-// 7 8
-// 5 6
-// 3 4 
-// 1 2
 ```
 
-pair형태로 저장하면 첫 번째 인자 기준 내림차순으로 정렬되고, 
+노드간의 거리가 주어질때, 모든 노드로부터 다른 모든 노드까지의 최단거리를 구하는 알고리즘이다.
 
-첫 번째 인자가 같다면 두 번째 인자 기준으로 정렬된다.
+i → j → k 순으로 반복문을 이어나가면 다른 노드의 최단거리가 미쳐 업데이트 되지 않은 상태에서 
 
-<br/>
+다른 노드의 최단거리를 구하려는 꼴이 되니, k를 먼저 사용해서 특정 한 점에대해서 매번 맵을 순회
 
-- pair형태로 오름차순 정렬하기
+하도록 한다.
+
+플루이드 워셜 알고리즘은 시간복잡도가 O(N^3)이므로 간선이 매우 많고, 노드가 적은 문제에서 유
+
+리하다.
+
+이 유형은 다익스트라 알고리즘으로도 해결할 수 있으므로, 노드가 1000개가 넘어간다면 다익스트
+
+라 알고리즘으로 해결하도록 하자.
+
+음의 간선 처리 가능
+
+[백준 1238 - 파티](https://www.acmicpc.net/problem/1238)
+
+플루이드 워셜 알고리즘으로 두가지의 일의순서나 크기비교로 세가지 정보를 얻을 수 있다.
+
+[백준 10159 - 저울](https://www.acmicpc.net/problem/10159)
+
+[백준 1613 - 역사](https://www.acmicpc.net/problem/1613)
+
+### 크루스칼 알고리즘
 
 ```cpp
-#include <queue>
-priority_queue<pair<int ,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+int tree[100001];
+vector<tuple<int, int, int>> graph;
 
-pq.push({ 1, 2 });
-pq.push({ 3, 4 });
-pq.push({ 5, 6 });
-pq.push({ 7, 8 });
+int get_parent(int child) {
+    if(tree[child] == child) {
+        return child;
+    }
 
-while(!pq.empty()) {
-	cout << pq.top().first << " " << pq.top().second << "\n";
-	pq.pop();
+    return tree[child] = get_parent(tree[child]);
 }
-// 1 2
-// 3 4
-// 5 6 
-// 7 8
+
+void merge(int child1, int child2) {
+    int parent1 = get_parent(child1);
+    int parent2 = get_parent(child2);
+
+    if(parent1 == parent2) return;
+    tree[parent2] = parent1;
+}
+
+for(int i=0; i<graph.size(); i++) {
+    int cost = get<0>(graph[i]);
+    int node1 = get<1>(graph[i]);
+    int node2 = get<2>(graph[i]);
+    
+    if(get_parent(node1) != get_parent(node2)) {
+        merge(node1, node2);
+        ans += cost;
+    }
+}
 ```
 
-<br/>
+크루스칼 알고리즘은 최소 신장 트리를 만들기 위한 알고리즘이다.
 
-하지만 우선순위 큐는 특정 index에 대해 접근이 되지 않기 때문에, 
+신장트리는 간선의 비용이 존재하는 그래프에서 모든 노드가 연결되기 위한 최소한의 간선만 제외
 
-특정 index에 접근하기 위해선 우선순위 큐 대신 set이나 map을 사용한다.
+하고 모두 제외한 트리이고, 최소 신장 트리는 그 간선의 가중치의 합이 최소가 되는 트리이다.
 
-- set - 중복을 허용하지 않으며, 원소들 오름차순 정렬
+간선의 비용을 오름차순으로 정렬하고 비용이 낮은 간선부터 분리집합처리를 하면된다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1bb70a60-a6bc-437e-8d6c-795e437614a5/Untitled.png)
+
+위의 그림에서 1의 부모와 3의 부모의 부모를 비교하여 부모가 같다면 cycle이 발생하므로 둘을 연결하지 않고,
+
+부모가 다를때만 둘을 연결해주면 된다.
+
+[백준 1197 - 최소 스패닝 트리](https://www.acmicpc.net/problem/1197)
+
+[백준 1647 - 도시분할 계획](https://www.acmicpc.net/problem/1647)
+
+### 벨만포드 알고리즘
 
 ```cpp
-#include <set>
+dp[1] = 0;
+bool cycle = false;
+for(int i=1; i <= n; i++) {
+    for(int j=1; j <= n; j++) {
+        int now = j;
 
-set<int> s;
-set<int>::iterator iter;
+        for(int k=0; k<graph[j].size(); k++) {
+            int next = graph[j][k].first;
+            int dis = graph[j][k].second;
 
-s.insert(1);
-s.insert(2);
+            if(dp[now] != INF && dp[next] > dp[now] + dis) {
+                dp[next] = dp[now] + dis;
+                if(i == n) cycle = true;
+            }
+        }  
+    }
+}
 ```
 
-<br />
+간선 중 음의 간선이 있을때, 벨만포드 알고리즘을 사용하면 cycle로 인한 최단거리 갱신을 막을 수 있다.
 
-- multiset - 중복을 허용하며, 원소들 오름차순 정렬
+이 알고리즘은 아직 잘 모르겠다. 나중에 나오면 한번더 공부해 보겠다.
 
-```cpp
-#include <set>
-
-multiset<int> ms;
-multiset<int>::iterator iter;
-
-ms.insert(1);
-ms.insert(1);
-ms.insert(2);
-```
-
-<br />
-
-- map - key의 중복을 허용하지 않으며, 원소들 key - value 형태로 오름차순 정렬
-
-```cpp
-#include <map>
-
-map<int> m;
-map<int>::iterator iter;
-
-m.insert(1);
-m.insert(2);
-```
-
-<br />
-
-- multimap - key의 중복을 허용하며, 원소들 key - value 형태로 오름차순 정렬
-
-```cpp
-#include <map>
-
-multimap<int, string> mm;
-multimap<int, string>::iterator iter;
-
-mm.insert({ 1, "hello" });
-mm.insert({ 2, "world" });
-```
-
-<br />
+[백준 11657 - 타임머신](https://www.acmicpc.net/problem/11657)
 
 # 기타 알고리즘
+
+## 위상정렬
+
+```cpp
+for(int i=1; i<=n; i++) {
+    if(degree[i] == 0) {
+	       q.push(i);
+    }
+}
+
+while(!q.empty()) {
+    int child = q.top();
+    cout << child << " ";
+    pq.pop();
+
+    for(int i=0; i<graph[child].size(); i++) {
+        int parent = graph[child][i];
+        degree[parent]--;
+
+        if(degree[parent] == 0) {
+            q.push(parent);
+        }
+    }
+}
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4c8a7bec-bea4-450e-a55b-4d10bb29a937/Untitled.png)
+
+Directed Acyclic Graph (DAG)는 사이클이 없는 방향 그래프이다.
+
+DAG는 **이벤트 간의 우선순위**를 나타내기 위해 주로 사용된다.
+
+위상 정렬(Topological sort)은 비순환 방향 그래프(DAG)에서 정점을 선형으로 정렬하는 것입니다.
+
+그래프가 DAG가 아닌 경우 그래프에 대한 위상 정렬은 불가능합니다.
+
+쉬운예로 스타크래프트의 건물 짓는 과정을 생각하면 된다.
+
+어떤 일들을 무언가를 특정 기준에 의해 순서대로 나열하고 싶을때 사용한다.
+
+각 노드간의 차수를 기록해두고 차수가 0인 노드부터 끊어내면 된다.
+
+[백준2252 - 줄 세우기](https://www.acmicpc.net/problem/2252)
+
+[백준 1005 - ACM Craft](https://www.acmicpc.net/problem/1005)
+
+[백준 1766 - 문제집](https://www.acmicpc.net/problem/1766)
+
+[백준 3665 - 최종 순위](https://www.acmicpc.net/problem/3665) (이해 잘 안됨)
 
 ## 분리집합
 
@@ -875,33 +975,80 @@ mm.insert({ 2, "world" });
 
 ```cpp
 int find_parent(int child) {
-    int next = set[child];
-    if(next == -1) return child;
-    
-    int parent = find_parent(next);
-    set[child] = parent;
-    return parent;
-    
+
+    if(gate[child] == -1) return child;
+    return gate[child] = find_parent(gate[child]);    
 }
 
-void merge(int a, int b) {
-    int a_parent = find_parent(a);
-    int b_parent = find_parent(b);
+void merge(int child1, int child2) {
+    int a_parent = find_parent(child1);
+    int b_parent = find_parent(child2);
     if(a_parent == b_parent) return;
 
-		// child_num[c2_p] += child_num[c1_p]; 자식의 수도 저장하고 싶을때
+		// child_num[child1] += child_num[child2]; 자식의 수도 저장하고 싶을때
     set[a_parent] = b_parent;
 }
 ```
 
- 원소의 value를 부모의 index를 가리키게 해서 하나의 집합을 이루게 하는 방식이다.
+분리집합은 두개의 원소가 같은 집합에 있는가? ( 두개의 원소가 같은 부모를 가리키는가?)에 대한 알고리즘이다. 
 
-첫번째 그림의 왼쪽 처럼 줄지어 이어가면 시간복잡도가 늘어나므로, 공통부모를 통일해준다.
+원소의 value를 부모의 index를 가리키게 해서 하나의 집합을 이루게 하는 방식이다.
 
-두개의 집합을 합쳐줄때는 한쪽 집합의 부모가 다른쪽 집합의 부모를 가리키게 한 다음,
+첫번째 그림의 왼쪽 처럼 줄지어 이어가면 시간복잡도가 늘어나므로, 공통부모를 통일해준다. 
 
-또다시 공통 부모를 통일해준다.
+두개의 집합을 합쳐줄때는 한쪽 집합의 부모가 다른쪽 집합의 부모를 가리키게 한 다음, 또다시 공통 부모를 통일해준다.
 
 [백준 1717 - 집합의 표현](https://www.acmicpc.net/problem/1717)
 
+[백준 4195 - 친구 네트워크](https://www.acmicpc.net/problem/4195)
+
+[백준 1976 - 여행가자](https://www.acmicpc.net/problem/1976)
+
+[백준 10774 - 공항](https://www.acmicpc.net/problem/10775)
+
 <br />
+
+## 세그멘트 트리
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0bc18bfb-738a-4c52-af0c-297da7ab1f6b/Untitled.png)
+
+```cpp
+long long segment_tree(int start, int end, int node) {
+    if(start == end) return tree[node] = arr[start];
+
+    int mid = (start + end) / 2;
+    return tree[node] = segment_tree(start, mid, node * 2) + segment_tree(mid + 1, end, node * 2 + 1);
+}
+
+long long sum(int node, int start, int end, int left, int right) {
+    if(start > right || end < left) return 0;  
+    else if(left <= start && end <= right) return tree[node];
+    else {
+        int mid = (start + end) / 2;
+        return sum(node * 2, start, mid, left, right) + sum(node * 2 + 1, mid+1, end, left, right);
+    }
+}
+
+void update(int change_index, long long diff, int node, int start, int end) {
+    if(change_index < start || change_index > end) return;
+    tree[node] += diff;
+
+    if(start != end) {
+        int mid = (start+end) / 2;
+        update(change_index, diff, node*2, start, mid);
+        update(change_index, diff, node*2+1, mid+1, end);
+    }
+}
+```
+
+세그멘트 트리를 이용하면 여러개의 연속적인 데이터가 존재할 때, 특정한 범위의 데이터의 합을 구
+
+하기 용이하다.
+
+특정 배열에서 길이가 n인 구간의 합을 구하려면 시간 복잡도는 O(N)이 소요된다. 하지만 구간의 합
+
+을 계속해 나가다 보면 많은 시간이 소요되는 법이다. 세그멘트 트리는 미리 구간의 합을 기록해두고 
+
+찾아서 활용하는 방식이다. 세그멘트 트리를 활용하면 O(logN)시간안에 구간의 합을 구할 수 있다.
+
+배열에서 특정값이 수정되어 그에 따른 구간 합을 수정하는 것도 O(logN) 시간이 소요된다.
