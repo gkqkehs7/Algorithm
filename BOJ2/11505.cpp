@@ -19,12 +19,18 @@ long long get_multi(int node, int start, int end, int target_start, int target_e
     }
 }
 
-long long update(int node, int start, int end, int target_index, int diff) {
-   if(start > target_index || end < target_index) return 1;
-   if(start == end) return tree[node] = diff;
+void update(int node, int start, int end, int target_index, int diff) {
+   if(start > target_index || end < target_index) return;
+   if(start == end) { 
+        tree[node] = diff; 
+        return;
+    }
+
    if(start != end) {
     int mid = (start+end) / 2;
-    return tree[node] = update(node * 2, start, mid, target_index, diff) * update(node * 2 + 1, mid + 1, end, target_index, diff) % 1000000007;
+    update(node * 2, start, mid, target_index, diff);
+    update(node * 2 + 1, mid + 1, end, target_index, diff); 
+    tree[node] = (tree[node * 2] * tree[node * 2]) % 1000000007;
    }
 }
 
