@@ -28,8 +28,6 @@ long long update(int node, int start, int end, int target_index, int diff) {
    }
 }
 
-
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
