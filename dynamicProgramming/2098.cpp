@@ -1,19 +1,40 @@
 #include <iostream>
 #include <vector>
-
+#define MAX 1000000000
 using namespace std;
-int dp[17][17];
+
+int n;
+
+int arr[5] = { 1, 2, 3, 4, 5 };
+bool visited[5] = { false, false, false, false, false };
 vector<pair<int, int>> graph[18];
 
-int main() {
-    int n;
-    cin >> n;
-    
-    for(int i=1; i<=n; i++) {
-        for(int j=1; j<=n; j++) {
-            int cost;
-            cin >> cost;
-            graph[i].push_back({ j, cost });
-        }
+
+vector<int> v;
+
+void dfs(int now) {
+
+    if(v.size() == 5) {
+        return;
     }
+
+    for(int i=0; i<graph[now].size(); i++) {
+        int next = graph[now][i].first;
+        int cost = graph[now][i].second;
+
+        if(visited[next] == false && cost != 0) {
+            visited[next] = true;
+            v.push_back(next);
+
+            dfs(next);      
+            v.pop_back();
+            visited[next] = false;
+        }
+        
+    }
+}
+
+int main() {
+    
+   
 }
