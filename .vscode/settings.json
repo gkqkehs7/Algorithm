@@ -69,6 +69,7 @@
     "utility": "cpp",
     "map": "cpp",
     "__memory": "cpp",
-    "hash_map": "cpp"
+    "hash_map": "cpp",
+    "xlocale": "cpp"
   }
 }
