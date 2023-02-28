@@ -1,4 +1,6 @@
 #include <iostream>
+#include <queue>
+#include <tuple>
 #include <algorithm>
 using namespace std;
 #define MAX 1000000000
@@ -9,219 +11,15 @@ int n, m;
 int x, y, direc;
 int target_x, target_y, target_direc;
 int ans = MAX;
+queue<tuple<int, int, int>> q;
 
-void dfs(int nx, int ny, int nd, int depth) {
-    cout << "depth:" << depth << " ->" << nx << " " << ny << " " << nd << "\n";
 
-    if (nx == target_x && ny == target_y && nd == target_direc) {
-        ans = min(ans, depth);
-        return;
+bool cango(int x_value, int y_value) {
+    if(x_value <= n && x_value > 0 && y_value <= m && y_value > 0 && map[x_value][y_value] == 0) {
+        return true;
+    } else {
+        return false;
     }
-    
-    int next_x = 0;
-    int next_y = 0;
-    int next_d = 0;
-
-    // 그 방향 유지
-    next_d = nd;
-    for (int i = 0; i < 4; i++) {
-        if (next_d == 1) {
-            next_x = nx;
-            next_y = ny + i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 1) {
-                    dp[next_x][next_y][next_d] = depth + 1;
-                    dfs(next_x, next_y, next_d, depth + 1);
-                }
-            }
-        }
-        else if (next_d == 2) {
-            next_x = nx + i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 1) {
-                    dp[next_x][next_y][next_d] = depth + 1;
-                    dfs(next_x, next_y, next_d, depth + 1);
-                }
-            }
-        }
-        else if (next_d == 3) {
-            next_x = nx;
-            next_y = ny - i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 1) {
-                    dp[next_x][next_y][next_d] = depth + 1;
-                    dfs(next_x, next_y, next_d, depth + 1);
-                }
-            }
-        }
-        else if (next_d == 4) {
-            next_x = nx - i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 1) {
-                    dp[next_x][next_y][next_d] = depth + 1;
-                    dfs(next_x, next_y, next_d, depth + 1);
-                }
-            }
-        }
-    }
-
-    // 오른쪽 회전
-    if (nd == 4) next_d = 1;
-    else next_d = nd + 1;
-    for (int i = 0; i < 4; i++) {
-        if (next_d == 1) {
-            next_x = nx;
-            next_y = ny + i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-        else if (next_d == 2) {
-            next_x = nx + i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-        else if (next_d == 3) {
-            next_x = nx;
-            next_y = ny - i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-        else if (next_d == 4) {
-            next_x = nx - i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-    }
-
-    // 왼쪽 회전
-    if (nd == 0) next_d = 3;
-    else next_d = nd - 1;
-    for (int i = 0; i < 4; i++) {
-        if (next_d == 1) {
-            next_x = nx;
-            next_y = ny + i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-        else if (next_d == 2) {
-            next_x = nx + i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-        else if (next_d == 3) {
-            next_x = nx;
-            next_y = ny - i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-        else if (next_d == 4) {
-            next_x = nx - i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 2) {
-                    dp[next_x][next_y][next_d] = depth + 2;
-                    dfs(next_x, next_y, next_d, depth + 2);
-                }
-            }
-        }
-    }
-
-    // 180도 회전
-    if (nd == 3) next_d = 1;
-    else if (nd == 4) next_d = 2;
-    else next_d = nd + 2;
-    for (int i = 0; i < 4; i++) {
-        if (next_d == 1) {
-            next_x = nx;
-            next_y = ny + i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 3) {
-                    dp[next_x][next_y][next_d] = depth + 3;
-                    dfs(next_x, next_y, next_d, depth + 3);
-                }
-            }
-        }
-        else if (next_d == 2) {
-            next_x = nx + i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 3) {
-                    dp[next_x][next_y][next_d] = depth + 3;
-                    dfs(next_x, next_y, next_d, depth + 3);
-                }
-            }
-        }
-        else if (next_d == 3) {
-            next_x = nx;
-            next_y = ny - i;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 3) {
-                    dp[next_x][next_y][next_d] = depth + 3;
-                    dfs(next_x, next_y, next_d, depth + 3);
-                }
-            }
-        }
-        else if (next_d == 4) {
-            next_x = nx - i;
-            next_y = ny;
-
-            if (next_x >= 0 && next_x <= n && next_y >= 0 && next_y <= m && map[next_x][next_y] == 0) {
-                if (dp[next_x][next_y][next_d] > depth + 3) {
-                    dp[next_x][next_y][next_d] = depth + 3;
-                    dfs(next_x, next_y, next_d, depth + 3);
-                }
-            }
-        }
-    }
-
 }
 
 int main() {
@@ -262,6 +60,104 @@ int main() {
     }
 
     dp[x][y][direc] = 0;
-    dfs(x, y, direc, 0);
-    cout << ans;
+    q.push({x, y, direc});
+
+    while(!q.empty()) {
+        int nx = get<0>(q.front());
+        int ny = get<1>(q.front());
+        int nd = get<2>(q.front());
+        // cout << nx << " " << ny << " " << nd << "\n";
+        q.pop();
+
+        int next_x;
+        int next_y;
+        int next_d;
+
+        // turn left
+        if(nd == 1) next_d = 4;
+        else next_d = nd - 1;
+        next_x = nx;
+        next_y = ny;
+
+        if(dp[next_x][next_y][next_d] > dp[nx][ny][nd] + 1) {
+            dp[next_x][next_y][next_d] = dp[nx][ny][nd] + 1;
+            q.push({next_x, next_y, next_d});
+        }
+        
+        // turn right
+        if(nd == 4) next_d = 1;
+        else next_d = nd + 1;
+        next_x = nx;
+        next_y = ny;
+
+        if(dp[next_x][next_y][next_d] > dp[nx][ny][nd] + 1) {
+            dp[next_x][next_y][next_d] = dp[nx][ny][nd] + 1;
+            q.push({next_x, next_y, next_d});
+        }
+        
+
+        // go
+        if(nd == 1) {
+            for(int k=1; k<=3; k++) {
+                next_x = nx;
+                next_y = ny + k;
+                next_d = nd;
+
+                if(cango(next_x, next_y)) {
+                    if(dp[next_x][next_y][next_d] > dp[nx][ny][nd] + 1) {
+                        dp[next_x][next_y][next_d] = dp[nx][ny][nd] + 1;
+                        q.push({next_x, next_y, next_d});
+                    }
+                } else {
+                    break;
+                }
+            }
+
+        } else if(nd == 2) {
+            for(int k=1; k<=3; k++) {
+                next_x = nx + k;
+                next_y = ny;
+                next_d = nd;
+                if(cango(next_x, next_y)) {
+                    if(dp[next_x][next_y][next_d] > dp[nx][ny][nd] + 1) {
+                        dp[next_x][next_y][next_d] = dp[nx][ny][nd] + 1;
+                        q.push({next_x, next_y, next_d});
+                    }
+                } else {
+                    break;
+                }
+            }
+        } else if(nd == 3) {
+            for(int k=1; k<=3; k++) {
+                next_x = nx;
+                next_y = ny - k;
+                next_d = nd;
+                if(cango(next_x, next_y)) {
+                    if(dp[next_x][next_y][next_d] > dp[nx][ny][nd] + 1) {
+                        dp[next_x][next_y][next_d] = dp[nx][ny][nd] + 1;
+                        q.push({next_x, next_y, next_d});
+                    }
+                } else {
+                    break;
+                }
+            }
+        } else if(nd == 4) {
+            for(int k=1; k<=3; k++) {
+                next_x = nx - k;
+                next_y = ny;
+                next_d = nd;
+                if(cango(next_x, next_y)) {
+                    if(dp[next_x][next_y][next_d] > dp[nx][ny][nd] + 1) {
+                        dp[next_x][next_y][next_d] = dp[nx][ny][nd] + 1;
+                        q.push({next_x, next_y, next_d});
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    cout << dp[target_x][target_y][target_direc];
+
 }
