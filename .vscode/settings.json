@@ -70,6 +70,7 @@
     "map": "cpp",
     "__memory": "cpp",
     "hash_map": "cpp",
-    "xlocale": "cpp"
+    "xlocale": "cpp",
+    "xstring": "cpp"
   }
 }
