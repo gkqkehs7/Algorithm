@@ -15,7 +15,7 @@
    // s[1][n]를 s[2][n]값을 통해 1~s[2][n] / s[2][n]+1~n으로 i,j가 서로 같은 값이 나올떄까지 계속 재귀로 나누어준다. 
    // 같은 값이 나오면 v vector에 넣어준다 괄호도 같이 넣어준다.
 
-   void print_optimal_parens(int s[][1001], int i, int j) {
+   void print_optimal_parens(int s[][1001], int i, int j) { // 그리고 여기 s배열 입력받는 부분을 저랑 다르게 하세여
       if (i == j) {
          v.push_back(to_string(i)); // string vector이므로 to_string으로 정수를 string으로 바꿔주는 과정
       } else {
@@ -85,10 +85,26 @@
             }
          }
          
-         cout << dp[1][n] << "\n" << temp[0] << "\n";
+         for(int i=1; i<=n; i++) {
+            for(int j=1; j<=n; j++) {
+               cout << dp[i][j] << " ";
+            }
+            cout << "\n";
+         }
+
+         cout << "\n";
          
-         // vector 초기화
-         temp.clear();
-         v.clear();
+         for(int i=1; i<=n; i++) {
+            for(int j=1; j<=n; j++) {
+               cout << s[i][j] << " ";
+            }
+            cout << "\n";
+         }
+
+         // cout << dp[1][n] << "\n" << temp[0] << "\n";
+         
+         // // vector 초기화
+         // temp.clear();
+         // v.clear();
       }
    }

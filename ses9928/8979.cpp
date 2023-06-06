@@ -1,34 +1,46 @@
 #include <iostream>
-#include <tuple>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
+int n, k;
+
+bool compare(pair<pair<int, int>, pair<int, int>> a, pair<pair<int, int>, pair<int, int>> b) {
+    if(a.first.second > b.first.second) { // 금 
+        return true;
+    } else if(a.first.second == b.first.second) { // 은 
+         if (a.second.first > b.second.first) {
+            return true;
+         } else if(a.second.first == b.second.first) { // 동
+            if(a.second.second > b.second.second) {
+                return true;
+            } else if(a.second.second == b.second.second) { // 금 은 동 개수가 모두 같다면 알고 싶은 나라 k가 가장 앞으로 오게한다
+                return a.first.first == k; 
+            }
+         }
+    }
+    return false;
+}
+
 
 int main() {
-    int n, k;
+   
     cin >> n >> k;
-    
-    vector<tuple<int, int, int>> tp;
+
+    pair<pair<int, int>, pair<int, int>> medal[1001];
 
     for(int i=0; i<n; i++) {
-        
-        int state_num;
-        cin >> state_num;
-
-        int arr[3];
-        for(int i=0; i<3; i++) {
-            cin >> arr[i];
-        }
-
-        tp.push_back({arr[0], arr[1], arr[2]});
-        // tp[state_num] = make_tuple(arr[0], arr[1], arr[2]);
+        // 나라번호 / 금 / 은 / 동 
+        cin >> medal[i].first.first >> medal[i].first.second >> medal[i].second.first >> medal[i].second.second;
     }    
 
-    sort(tp.begin(), tp.end());
+    sort(medal, medal + n, compare);
 
-    for(int i=0; i<n; i++)  {
-        cout << get<0>(tp[i]) << " " << get<1>(tp[i]) << " " << get<2>(tp[i]) << "\n";
+    for (int i = 0; i < n; i++) {
+        if(medal[i].first.first == k) {
+            cout << i + 1 << "\n";
+            break;
+        }
     }
     
 }
