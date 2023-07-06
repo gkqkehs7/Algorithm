@@ -81,4 +81,3 @@ function solution(picks, minerals) {
     return answer;
 }
 
-console.log(solution([0, 1, 2], ["diamond", "diamond", "iron", "diamond", "diamond", "iron", "iron", "iron", "diamond", "iron", "diamond"] ));
