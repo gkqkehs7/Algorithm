@@ -20,7 +20,6 @@ function solution(book_time) {
         } 
 
         return prev[0] - next[0]
-     
     })
 
     for(let i=0; i<book_time.length; i++) {
