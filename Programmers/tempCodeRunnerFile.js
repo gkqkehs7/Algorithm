@@ -1,1 +1,1 @@
-sale_ratio
+total_idx
