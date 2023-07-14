@@ -1,1 +1,1 @@
-total_idx
+ console.log(i, j, d);
