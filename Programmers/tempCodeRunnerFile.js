@@ -1,1 +1,1 @@
- console.log(i, j, d);
+console.log(Object.entries(nums))
