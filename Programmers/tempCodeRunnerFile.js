@@ -1,1 +1,1 @@
-console.log(Object.entries(nums))
+log(arr)
