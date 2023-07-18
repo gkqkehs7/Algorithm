@@ -16,10 +16,10 @@ function solution(queue1, queue2) {
         return -1;
     }
 
-    let temp = [];
+    let temp = Array(queue1.length).fill(0);
 
     for(let i=0; i<queue1.length; i++) {
-        temp.push(queue1[i]);
+        temp[i] = queue1[i]
     }
 
     queue1 = queue1.concat(queue2);
@@ -34,9 +34,8 @@ function solution(queue1, queue2) {
 
     while(q1_sum !== q2_sum) {
 
-        console.log(q1_sum, q2_sum);
 
-        if(q1_end < q1_start || q2_end < q2_start) {
+        if(q1_end > q_len * 2 + 1 || q1_end < q1_start || q2_end < q2_start || q2_end > q_len * 2 + 1) {
             answer = -1;
             break;
         }
@@ -59,7 +58,8 @@ function solution(queue1, queue2) {
     }
 
     console.log(answer)
+
     return answer;
 }
 
-solution([3, 2, 7, 2], [4, 6, 5, 1])
+solution([3, 3, 3, 3], [3, 3, 21, 3])
