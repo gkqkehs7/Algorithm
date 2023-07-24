@@ -26,7 +26,6 @@ function solution(word) {
         if(word === queue.join("")){
             break;
         }
-
       
         if(queue.length === 5) {
 
