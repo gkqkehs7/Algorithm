@@ -1,4 +1,6 @@
-# 구현/Degree
+# 알고리즘
+
+## 구현/Degree
 
 ### **소수관련 문제 1 - 소수 판별법**
 
@@ -69,7 +71,7 @@ for(int i = 0; i < v.size(); i++) {
 
 먼저 에라토스테네스의 체를 이용하여 check배열을 초기화한다.
 
-최대한 소수를 벡터에 담고, 구하려는 수를 소수들로 나누어주며 나누어진다면 소수가 아니다. 소수가 아닌 수들은 소수를 약수로 갖기 때문이다.
+최대한 소수를 벡터에 담고, 구하려는 수를 소수들로 나누어주며 나누어진다면 소수가 아니다. **소수가 아닌 수들은 소수를 약수로 갖기 때문이다.**
 
 [백준 15711 - 환상의 짝꿍](https://www.acmicpc.net/problem/15711)
 
@@ -102,6 +104,22 @@ int get_gcd(int a, int b){
 
 <br/>
 
+## 구간 합
+
+```cpp
+for(int i=1; i<=n; i++) {
+
+    if(i + x > n) break;
+
+    sum = sum - visitors[i] + visitors[i + x];
+
+}
+```
+
+배열에서 연속된 구간의 연속된 합을 구하는 문제이다.
+
+새로운 값을 구할떄는 이전 합에서 제일 첫번째 값을 빼고 그 다음 값만 더해주면 단 두번의 연산으로 구간 합을 계속 업데이트해 나갈 수 있다.
+
 # DFS
 
 ### 기본 dfs코드
@@ -122,6 +140,8 @@ void dfs(int now) {
     }
 }
 ```
+
+[백준 14867 - 물통](https://www.acmicpc.net/problem/14867)
 
 <br/>
 
@@ -231,7 +251,11 @@ while(!q.empty()) {
 }
 ```
 
-보통 최단경로에는 dfs보단 bfs를 사용한다.
+**보통 최단경로에는 dfs보단 bfs를 사용한다.**
+
+**dfs로 하면 재귀함수의 호출이 너무 많아지기 때문이다.**
+
+DFS는 해가 하나인 경우에 유리합니다. 즉, 목표 노드가 하나인 경우에는 DFS를 사용하여 해를 찾을 수 있습니다. DFS는 목표 노드를 찾으면 탐색을 종료하기 때문에, 해가 하나인 경우에는 BFS보다 효율적입니다.
 
 이전 경로까지의 거리를 +1 해나가며, 다음 경로까지의 거리를 계산해나간다.
 
@@ -361,9 +385,9 @@ int fibonacci(int n) {
 
 fibonacci(10)을 구하려면 fibonacci(10)을 fibonacci(9), fibonacci(8)로 나누고 1이 될때까지 이를 계속 나누어 fibonacci(10)을 구하여 dp배열에 저장한다음, 다음 재귀함수에서 fibonacci(10)이 나왔을때, 바로 꺼내어 return해주는 방식이다.
 
-10을 9,8 9를 8,7..이렇게 큰 수를 작은 수로 쪼개어 풀어 나가기 때문에, top-down방식이다.
+top-down방식은 끝까지 결과를 내어야 답을 도출 할 수 있을때 사용한다. 이 방식은 완전탐색과 거의 유사한 방식이 되는데, depth를 지정해주고 3차원 dp를 사용하여 이미 지나간 값에 대한 중복처리를 하여 시간을 줄인다.
 
-이 방식은 연산 수가 줄어들지만, 재귀함수가 너무 많이 호출되어 overhead가 존재하기 때문에 비효율 적이다. 
+[백준 2666 - 벽장문의 이동](https://www.acmicpc.net/problem/2666)
 
 <br/>
 
@@ -487,6 +511,8 @@ for(int i=0; i<n; i++) {
 1차원 dp만 사용하려면 **dp[i] += dp[i][j-coin[i]]**로 작성할 수 있다.
 
 [백준 2293 - 동전1](https://www.acmicpc.net/problem/2293)
+
+[백준 2410 - 2의 멱수의 합](https://www.acmicpc.net/problem/2410)
 
 <br/>
 
@@ -783,7 +809,7 @@ while(!pq.empty()) {
 }
 ```
 
-노드간의 거리가 주어질때, 특정 한 노드로부터 다른 모든 노드까지의 최단거리를 구하는 알고리즘이다.
+노드간의 거리가 주어질때, **특정 한 노드로부터 다른 모든 노드까지의 최단거리**를 구하는 알고리즘이다.
 
 만약 우선순위 큐를 사용하지 않는다면, 일반적인 완전탐색과 같은 알고리즘이 된다. 다익스트라 알고리즘의 빠름은 **현재 노드에서 가장 비용이 적게드는 간선을 선택하여 그 노드를 먼저 방문**하는 방식에 있다. 그렇지 않고 비용에 상관없이 방문하는 방식을 택한다면 나중에 가장 비용이 적게드는 간선을 통과하여 노드를 방문했을때, 다시 최단거리로 업데이트 해주어야 하니 시간이 곱절로 들게된다.
 
@@ -858,6 +884,8 @@ void merge(int child1, int child2) {
     tree[parent2] = parent1;
 }
 
+sort(graph.begin(), graph.end());
+
 for(int i=0; i<graph.size(); i++) {
     int cost = get<0>(graph[i]);
     int node1 = get<1>(graph[i]);
@@ -878,7 +906,7 @@ for(int i=0; i<graph.size(); i++) {
 
 간선의 비용을 오름차순으로 정렬하고 비용이 낮은 간선부터 분리집합처리를 하면된다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1bb70a60-a6bc-437e-8d6c-795e437614a5/Untitled.png)
+![Untitled](https://github.com/gkqkehs7/Algorithm/assets/77993709/5b13098d-c812-4535-9272-c450bc271d3f)
 
 위의 그림에서 1의 부모와 3의 부모의 부모를 비교하여 부모가 같다면 cycle이 발생하므로 둘을 연결하지 않고,
 
@@ -943,7 +971,7 @@ while(!q.empty()) {
 }
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4c8a7bec-bea4-450e-a55b-4d10bb29a937/Untitled.png)
+![Untitled 1](https://github.com/gkqkehs7/Algorithm/assets/77993709/af201935-0e48-4c2b-8020-50882f6aceac)
 
 Directed Acyclic Graph (DAG)는 사이클이 없는 방향 그래프이다.
 
@@ -969,15 +997,14 @@ DAG는 **이벤트 간의 우선순위**를 나타내기 위해 주로 사용된
 
 ## 분리집합
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1a7e34fd-e14f-4583-91b6-81e80a8a67f0/Untitled.png)
+![Untitled 2](https://github.com/gkqkehs7/Algorithm/assets/77993709/f6fb6c13-12b2-41e5-ae9a-abfc633aa460)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c812ac27-807d-4c2d-8114-6c4f7933b515/Untitled.png)
+![Untitled 3](https://github.com/gkqkehs7/Algorithm/assets/77993709/57426da0-d80a-440b-bcb1-e2f7e6f736f5)
 
 ```cpp
 int find_parent(int child) {
-
-    if(gate[child] == -1) return child;
-    return gate[child] = find_parent(gate[child]);    
+    if(tree[child] == -1) return child;
+    return tree[child] = find_parent(tree[child]);    
 }
 
 void merge(int child1, int child2) {
@@ -985,18 +1012,35 @@ void merge(int child1, int child2) {
     int b_parent = find_parent(child2);
     if(a_parent == b_parent) return;
 
-		// child_num[child1] += child_num[child2]; 자식의 수도 저장하고 싶을때
-    set[a_parent] = b_parent;
+	if(parent1 > parent2) {
+        tree[parent1] = parent2;
+    } else {
+        tree[parent2] = parent1;
+    }
 }
 ```
 
-분리집합은 두개의 원소가 같은 집합에 있는가? ( 두개의 원소가 같은 부모를 가리키는가?)에 대한 알고리즘이다. 
+분리집합은 두개의 원소가 같은 집합에 있는가? ( 두개의 원소가 같은 부모를 가리키는가?) 에 대한 
+
+알고리즘이다. 
 
 원소의 value를 부모의 index를 가리키게 해서 하나의 집합을 이루게 하는 방식이다.
 
 첫번째 그림의 왼쪽 처럼 줄지어 이어가면 시간복잡도가 늘어나므로, 공통부모를 통일해준다. 
 
-두개의 집합을 합쳐줄때는 한쪽 집합의 부모가 다른쪽 집합의 부모를 가리키게 한 다음, 또다시 공통 부모를 통일해준다.
+두개의 집합을 합쳐줄때는 한쪽 집합의 부모가 다른쪽 집합의 부모를 가리키게 한 다음, 또다시 공통 
+
+부모를 통일해준다.
+
+```tsx
+for(let j=1; j<=n; j++) {
+    tree[j] = get_parent(j)
+}
+```
+
+만약 [1, 2] [2, 3] [3, 4] 이렇게 간선이 순서대로 주어진다면 tree는 [1, 1, 1, 1]이 되겠지만
+
+[1, 2] [3, 4] [2, 3]로 주어진다면  4의 부모는 1로 update되지 않고 3으로 남아있게 된다. 따라서 이렇게 연결 순서대로 주어지지 않는 경우에는 이렇게 해당 node를 다시 순회하며 부모를 update시켜 주어야 한다.
 
 [백준 1717 - 집합의 표현](https://www.acmicpc.net/problem/1717)
 
@@ -1010,7 +1054,8 @@ void merge(int child1, int child2) {
 
 ## 세그멘트 트리
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0bc18bfb-738a-4c52-af0c-297da7ab1f6b/Untitled.png)
+![Untitled 4](https://github.com/gkqkehs7/Algorithm/assets/77993709/92815eb7-9c3f-4902-9398-69ad4ac159d5)
+
 
 ```cpp
 long long segment_tree(int start, int end, int node) {
