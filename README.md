@@ -104,7 +104,7 @@ int get_gcd(int a, int b){
 
 <br/>
 
-## 구간 합
+### 구간 합
 
 ```cpp
 for(int i=1; i<=n; i++) {
@@ -122,7 +122,7 @@ for(int i=1; i<=n; i++) {
 
 <br/>
 
-# DFS
+## DFS
 
 ### 기본 dfs코드
 
@@ -271,7 +271,7 @@ DFS는 해가 하나인 경우에 유리합니다. 즉, 목표 노드가 하나�
 
 <br/>
 
-# 백트래킹
+## 백트래킹
 
 ### BackTracking 기본 코드
 
@@ -359,7 +359,7 @@ do {
 
 <br/>
 
-# **Dynamic Programming**
+## **Dynamic Programming**
 
 dynamic programming의 기본원리는 **한 번 계산한 값은 다시 계산하지 않는다**에 있다 기억하자.
 
@@ -665,7 +665,7 @@ while(dp[i][j] != 0) {
 
 <br/>
 
-# 정렬
+## 정렬
 
 정렬을 어떻게 정렬할 것인가가 가장 중요하다.
 
@@ -704,7 +704,7 @@ for(int i=0; i<lec.size(); i++) {
 
 <br/>
 
-# Binary Search
+## Binary Search
 
 ### binary search 기본 코드
 
@@ -742,7 +742,7 @@ void binary_search(int start, int end, int target) {
 
 <br />
 
-# 우선순위 큐
+## 우선순위 큐
 
 ### priority queue 기본 코드
 
@@ -786,7 +786,7 @@ for(int i=0; i<k; i++) {
 
 <br/>
 
-# 최단거리 알고리즘
+## 최단거리 알고리즘
 
 ### 다익스트라 알고리즘
 
@@ -962,9 +962,9 @@ for(int i=1; i <= n; i++) {
 
 <br/>
 
-# 기타 알고리즘
+## 기타 알고리즘
 
-## 위상정렬
+### 위상정렬
 
 ```cpp
 for(int i=1; i<=n; i++) {
@@ -1015,7 +1015,7 @@ DAG는 **이벤트 간의 우선순위**를 나타내기 위해 주로 사용된
 
 <br/>
 
-## 분리집합
+### 분리집합
 
 <img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/f6fb6c13-12b2-41e5-ae9a-abfc633aa460" />
 
@@ -1072,7 +1072,7 @@ for(let j=1; j<=n; j++) {
 
 <br />
 
-## 세그멘트 트리
+### 세그멘트 트리
 
 <img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/92815eb7-9c3f-4902-9398-69ad4ac159d5" />
 
