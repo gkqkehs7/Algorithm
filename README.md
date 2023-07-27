@@ -906,7 +906,7 @@ for(int i=0; i<graph.size(); i++) {
 
 간선의 비용을 오름차순으로 정렬하고 비용이 낮은 간선부터 분리집합처리를 하면된다.
 
-![Untitled](https://github.com/gkqkehs7/Algorithm/assets/77993709/5b13098d-c812-4535-9272-c450bc271d3f)
+<img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/5b13098d-c812-4535-9272-c450bc271d3f" />
 
 위의 그림에서 1의 부모와 3의 부모의 부모를 비교하여 부모가 같다면 cycle이 발생하므로 둘을 연결하지 않고,
 
@@ -971,7 +971,7 @@ while(!q.empty()) {
 }
 ```
 
-![Untitled 1](https://github.com/gkqkehs7/Algorithm/assets/77993709/af201935-0e48-4c2b-8020-50882f6aceac)
+<img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/af201935-0e48-4c2b-8020-50882f6aceac" />
 
 Directed Acyclic Graph (DAG)는 사이클이 없는 방향 그래프이다.
 
@@ -997,9 +997,9 @@ DAG는 **이벤트 간의 우선순위**를 나타내기 위해 주로 사용된
 
 ## 분리집합
 
-![Untitled 2](https://github.com/gkqkehs7/Algorithm/assets/77993709/f6fb6c13-12b2-41e5-ae9a-abfc633aa460)
+<img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/f6fb6c13-12b2-41e5-ae9a-abfc633aa460" />
 
-![Untitled 3](https://github.com/gkqkehs7/Algorithm/assets/77993709/57426da0-d80a-440b-bcb1-e2f7e6f736f5)
+<img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/57426da0-d80a-440b-bcb1-e2f7e6f736f5" />
 
 ```cpp
 int find_parent(int child) {
@@ -1054,8 +1054,7 @@ for(let j=1; j<=n; j++) {
 
 ## 세그멘트 트리
 
-![Untitled 4](https://github.com/gkqkehs7/Algorithm/assets/77993709/92815eb7-9c3f-4902-9398-69ad4ac159d5)
-
+<img src="https://github.com/gkqkehs7/Algorithm/assets/77993709/92815eb7-9c3f-4902-9398-69ad4ac159d5" />
 
 ```cpp
 long long segment_tree(int start, int end, int node) {
