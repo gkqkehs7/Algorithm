@@ -7,9 +7,10 @@ function solution(citations) {
     })
 
     let start = 0;
-    let end = citations.length - 1;
+    let end = citations.length;
 
     let answer = 0; 
+
     while(start <= end) {
         let hIdx = parseInt((start+end) / 2);
      
@@ -21,10 +22,8 @@ function solution(citations) {
                 break;
             }
         }
-
-        console.log(hIdx, count)
         
-        if(hIdx <= n - count) {
+        if(hIdx <= n - count) { // h번 이상 인용된 논문
             answer = hIdx
             start = hIdx + 1;
         } else {
@@ -38,4 +37,4 @@ function solution(citations) {
     return answer;
 }
 
-solution([3, 0, 6, 1, 5])
+solution([4, 4, 4])
