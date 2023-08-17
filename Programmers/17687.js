@@ -28,26 +28,29 @@ function get_num(number, bianry) {
 function solution(n, t, m, p) {
 
     let total = 0;
-    let count = 1;
+    let count = 0;
     let str = ""
     let answer = "";
 
-    if(p === 1) {
-        total++;
-        answer += "0"
-    }
-
     while(total < t) {
         
-        str += get_num(count, n);
+        if(count === 0) {
+            str += "0";
+        } else {
+            str += get_num(count, n);
+        }
 
-        console.log(str)
+        // console.log(str)
 
         count += 1;
 
-        if(str.length >= p) {
+        if(str.length >= m) {
             answer += str[p - 1];
-            str = str.slice(p, str.length);
+           //  console.log(str[p - 1], "들어감")
+
+       
+            str = str.slice(m, str.length)
+            // console.log("자르고 남은거", str)
             total++;
         }
     }
@@ -58,4 +61,4 @@ function solution(n, t, m, p) {
 }
 
 
-solution(2, 4, 2, 1);
+solution(10, 4, 5, 4);
