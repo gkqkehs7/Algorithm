@@ -10,13 +10,13 @@ function solution(files) {
                 
         let tail = files[i];        
         sort_files.push( {'head':head, 'number':number, 'tail':tail});
-    }
+    }   
 
     console.log(sort_files)
 
     sort_files.sort((prev, next) => {  
         
-        if(prev.head > next.head) {
+        if(prev.head.toLowerCase() > next.head.toLowerCase()) {
             return 1;
         }
 
