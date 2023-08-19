@@ -10,31 +10,58 @@ function solution(m, musicinfos) {
     let answer_len = 0;
     let answer = '';
 
+    m = m
+    .replace(/(C#)/g, "c")
+    .replace(/(D#)/g, "d")
+    .replace(/(F#)/g, "f")
+    .replace(/(G#)/g, "g")
+    .replace(/(A#)/g, "a");
+
     for(let i=0; i<musicinfos.length; i++) {
         let musicinfo = musicinfos[i];
         let [startTime, endTime, name, song] = musicinfo.split(",");
 
         let time = timeToMinute(endTime) - timeToMinute(startTime)
-        console.log(startTime, endTime, name, song, time)
+        // console.log(startTime, endTime, name, song, time)
 
         let total_song = "";
         if(song.length < time) {
-            total_song = total_song + song.slice(0, time - song.length);
+            let attach_count = parseInt(time / song.length);
+            let temp = attach_count;
+
+            while(temp--) {
+                total_song = total_song += song;
+            }
+
+            total_song += song.slice(0, parseInt(time % song.length));
+
         } else if(song.length > time) {
             total_song = song.slice(0, time);
         } else {
             total_song = song; 
         }
-
-        console.log(total_song, m);
-        if(total_song.includes(m)) {
-            console.log("includes!")
-            if(total_song.length > answer_len) {
-                answer_len = total_song.length;
-                answer = name;
-            }
+       
+        if(total_song === "") {
+            continue;
         }
-    }
+
+        total_song = total_song
+        .replace(/(C#)/g, "c")
+        .replace(/(D#)/g, "d")
+        .replace(/(F#)/g, "f")
+        .replace(/(G#)/g, "g")
+        .replace(/(A#)/g, "a");
+
+        // let isSame = total_song.indexOf(m);
+
+        if(total_song.includes(m)) {
+            if(total_song.length > answer_len) {
+                    answer_len = total_song.length;
+                    answer = name;
+                }
+            }     
+        }
+    
 
     if(answer_len === 0) {
         return "(None)"
@@ -43,4 +70,4 @@ function solution(m, musicinfos) {
     return answer;
 }
 
-solution("CC#BCC#BCC#BCC#B", ["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"])
+console.log(solution("ABCDEFG", ["12:00,12:00,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
