@@ -1,4 +1,5 @@
 function solution(s){
+    
     let stack = [];
     for(var i=0; i<s.length; i++){
         if(stack[stack.length-1] != s[i]){
@@ -15,5 +16,3 @@ function solution(s){
     }
 
 }
-
-console.log(solution("abccba"))
