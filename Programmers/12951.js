@@ -1,6 +1,5 @@
 function solution(s) {
 
-
     let str_arr = s.split(" ");
 
     for(let i=0; i<str_arr.length; i++) {
@@ -22,15 +21,17 @@ function solution(s) {
     let answer = "";
 
     for(let i=0; i<str_arr.length; i++) {
-        if(str_arr !== "") {
-            answer += " " + str_arr[i];
-        }
+        if(i !== str_arr.length - 1) {
+            answer += str_arr[i] + " ";
+        } else {
+            answer += str_arr[i];
+        }   
     }
   
 
-    console.log(answer);
+    // console.log(answer);
 
     return answer;  
 }
 
-solution("3people   unFollowed me")
+solution(" 3people  unFollowed me")
