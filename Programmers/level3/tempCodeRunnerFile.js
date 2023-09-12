@@ -1,36 +1,42 @@
-function solution(n, s) {
+function solution(n, stations, w) {
 
-    if(s < n) {
-        return [-1];
+    let arr = [];
+
+    for(let i=0; i<stations.length; i++) {
+        arr.push([stations[i]- w, stations[i] + w])
     }
-
-    let temp = parseInt(s/n);
-    let rest = s % n;
-
-    console.log(temp, rest)
-
-    let answer = Array(n).fill(temp);
-
-    for(let i=0; i<rest; i++) {
-        answer[i] = answer[i] + 1;
-    }
-
-    answer.sort((prev, next) => {
-        return prev - next;
-    })
     
-    console.log(answer)
+    let scope = w * 2 + 1;
 
-    // let temp2 = parseInt(n / rest); // 몇개씩 나누어 더 줄거냐
-    // let rest2 = n % rest;
+    let now = 0;
+    let idx = 0;
+    let answer = 0;
 
-    // answer = answer.map((item) => item + temp2);
+    console.log(arr)
 
-    // console.log(answer)
+    while(idx < arr.length) {
+        let [wifi_start, wifi_end] = arr[idx]
 
-    // console.log(temp2, rest2);
+        if(idx === 0 && wifi_end <= now + scope) {
+            now = wifi_end + 1
+            idx += 1;
+            continue;
+        }
+
+        if(now + scope < wifi_start) {
+            now = now + scope + 1
+            answer += 1;
+        } else if(now + scope >= wifi_start) {
+            now = wifi_end + 1
+            answer += 1;
+            idx += 1; // 다음 와이파이 체크
+        }
+    }
+
+    answer += Math.ceil((n - now) / scope);
+
 
     return answer;
 }
 
-solution(7, 103)
+solution(11, [4, 11], 1)
