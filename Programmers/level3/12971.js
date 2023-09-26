@@ -19,5 +19,3 @@ function solution(sticker) {
 
     return Math.max(dp1[length - 1], dp2[length - 1]);
 }
-
-solution([6, 14])

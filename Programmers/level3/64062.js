@@ -1,14 +1,12 @@
 function solution(stones, k) {
 
-    function work_stone(copy_stones, people) {
-        for(let i=0; i<stones.length; i++) {
-            copy_stones[i] = copy_stones[i] - people;
-        }
-
+    function work_stone(people) {
+    
+        let copy_stones = [...stones]
         let count = 0;
+
         for(let i=0; i<stones.length; i++) {
-            
-            if(copy_stones[i] <= 0) {
+            if(copy_stones[i] - people <= 0) {
                 count++;
             } else {
                 count = 0;
@@ -30,15 +28,14 @@ function solution(stones, k) {
     while(start <= end) {
         let mid = parseInt((start+end) / 2);
 
-        if(work_stone(stones, mid)) {
-            answer = mid;
+        if(work_stone(mid)) {
             start = mid + 1;
         } else {
             end = mid - 1;
         }
     }
 
-    return answer;
+    return start;
 }
 
 solution([2, 4, 5, 3, 2, 1, 4, 2, 5, 1], 3)
