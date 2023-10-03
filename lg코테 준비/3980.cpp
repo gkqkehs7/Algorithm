@@ -1,32 +1,43 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 #include <queue>
 using namespace std;
 
-int main() {
-    int test;
-    cin >> test;
+int result = 0;
+int arr[11][11] = { 0, };
+bool visited[11];
 
-    while(test--) {
+void dfs(int cnt, int sum) {
 
-        vector<pair<int, int>> graph[11];
-        int score[11][11];
-        int visited[11];
-        for(int i=0; i<11; i++) {
-            for(int j=0; j<11; j++) {
-                cin >> score[i][j];
-
-                if(score[i][j] != 0) {
-                    graph[i].push_back({ j, score[i][j] });
-                }
-            }
-
-            visited[i] = false;
-        }
-
-        queue<int> q;
+    if(cnt == 11) {
+        result = max(result, sum);
+		return;
     }
 
+    for (int i = 0; i < 11; i++) {
+		if (arr[cnt][i] == 0)
+			continue;
+		if (visited[i] == false) {
+			visited[i] = true;
+			dfs(cnt + 1, sum + arr[cnt][i]);
+			visited[i] = false;
+		}
+	}
+}
 
+int main() {
+    int t;
+	cin >> t;
 
+	while (t--) {
+		for (int i = 0; i < 11; i++)
+			for (int j = 0; j < 11; j++)
+				cin >> arr[i][j];
+
+		memset(visited, 0, sizeof(visited));
+		result = 0;
+		dfs(0, 0);
+		cout << result << "\n";
+	}
 }

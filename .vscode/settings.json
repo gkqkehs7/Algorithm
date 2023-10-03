@@ -19,6 +19,8 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "algorithm": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "iosfwd": "cpp",
+        "__locale": "cpp"
     }
 }
