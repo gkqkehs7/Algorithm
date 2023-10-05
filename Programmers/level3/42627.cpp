@@ -44,8 +44,7 @@ void dfs(int x, int y, int cost, int direction, vector<vector<int>> board) {
                 dfs(nx, ny, nextCost, i, board);
             }
         }
-    }
-    
+    } 
 }
 
 int solution(vector<vector<int>> board) {
