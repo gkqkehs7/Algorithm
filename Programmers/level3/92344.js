@@ -1,20 +1,15 @@
-function solution(board, skills) {
+const arr = [1, 2, 3, 4, 5];
 
+const prefix_sum = Array(arr.length).fill(0);
 
-    const arr = Array.from({ length: board.length + 1 }, () =>
-        Array(board[0].length + 1).fill(0)
-    );
+prefix_sum[0] = arr[0];
 
-    for(const skill in skills) {
-        const [type, r1, c1, r2, c2, degree] = skill;
-        
-        const attck = type === 1 ? -1 : 1;
-
-        arr[r1][c1] += degree * attck;
-        
-    }
-    var answer = 0;
-    return answer;
+for (let i = 1; i < prefix_sum.length; i++) {
+	prefix_sum[i] = arr[i] + prefix_sum[i - 1];
 }
 
-solution([[5,5,5,5,5],[5,5,5,5,5],[5,5,5,5,5],[5,5,5,5,5]], [[1,0,0,3,4,4],[1,2,0,2,3,2],[2,1,0,3,1,2],[1,0,1,3,3,1]])
+console.log(prefix_sum); // [ 1, 3, 6, 10, 15 ]
+
+console.log('1부터 3까지의 합: ', prefix_sum[3] - prefix_sum[0]); // 9
+console.log('2부터 4까지의 합: ', prefix_sum[4] - prefix_sum[1]); // 12
+console.log('0부터 3까지의 합: ', prefix_sum[3]); // 10

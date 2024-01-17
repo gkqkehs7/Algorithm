@@ -1,3 +1,0 @@
-/Users/minuminu/Desktop/Algorithm/cmake-build-debug/CMakeFiles/Programmers.dir
-/Users/minuminu/Desktop/Algorithm/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/minuminu/Desktop/Algorithm/cmake-build-debug/CMakeFiles/rebuild_cache.dir

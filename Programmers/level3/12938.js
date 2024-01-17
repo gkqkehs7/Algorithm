@@ -1,36 +1,57 @@
-function solution(n, s) {
+function solution(board, skills) {
+	const temp = Array(board.length + 1)
+		.fill()
+		.map(() => Array(board[0].length + 1).fill(0));
 
-    if(s < n) {
-        return [-1];
-    }
+	for (const skill of skills) {
+		let [type, r1, c1, r2, c2, degree] = skill;
 
-    let temp = parseInt(s/n);
-    let rest = s % n;
- 
-    //console.log(temp, rest)
+		degree = type === 1 ? -degree : degree;
 
-    let answer = Array(n).fill(temp);
+		temp[r1][c1] += degree;
+		temp[r1][c2 + 1] += -degree;
+		temp[r2 + 1][c1] += -degree;
+		temp[r2 + 1][c2 + 1] += degree;
+	}
 
-    for(let i=0; i<rest; i++) {
-        answer[i] = answer[i] + 1;
-    }
+	// 가로 방향 누적 합
+	for (let i = 0; i < temp.length; i++) {
+		for (let j = 1; j < temp[0].length; j++) {
+			temp[i][j] += temp[i][j - 1];
+		}
+	}
 
-    answer.sort((prev, next) => {
-        return prev - next;
-    })
-    
-    // console.log(answer)
+	// 세로 방향 누적 합
+	for (let i = 0; i < temp[0].length; i++) {
+		for (let j = 1; j < temp.length; j++) {
+			temp[j][i] += temp[j - 1][i];
+		}
+	}
 
-    // let temp2 = parseInt(n / rest); // 몇개씩 나누어 더 줄거냐
-    // let rest2 = n % rest;
+	let answer = 0;
 
-    // answer = answer.map((item) => item + temp2);
+	for (let i = 0; i < board.length; i++) {
+		for (let j = 0; j < board[i].length; j++) {
+			board[i][j] += temp[i][j];
 
-    // console.log(answer)
+			if (board[i][j] > 0) answer += 1;
+		}
+	}
 
-    // console.log(temp2, rest2);
-
-    return answer;
+	return answer;
 }
 
-solution(7, 103)
+solution(
+	[
+		[5, 5, 5, 5, 5],
+		[5, 5, 5, 5, 5],
+		[5, 5, 5, 5, 5],
+		[5, 5, 5, 5, 5],
+	],
+	[
+		[1, 0, 0, 3, 4, 4],
+		[1, 2, 0, 2, 3, 2],
+		[2, 1, 0, 3, 1, 2],
+		[1, 0, 1, 3, 3, 1],
+	]
+);
