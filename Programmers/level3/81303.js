@@ -1,50 +1,82 @@
 function solution(n, k, cmds) {
+	const Node = function (index, prev) {
+		this.index = index;
+		this.prev = prev;
+		this.next;
+	};
 
-    let stack = [];
-    const numbers = Array.from({ length: n }, (_, index) => index);
-    let idx = k;
+	let root = new Node(0);
+	let currentNode = root;
+	let prev = root;
 
-    for(const cmd of cmds) {
-        console.log(idx)
-        if(cmd[0] === 'U') {
-            let input = cmd[2];
-            idx += parseInt(input);
-        } else if(cmd[0] === 'D') {
-            let input = cmd[2];
-            idx -= parseInt(input);
-        } else if(cmd[0] === 'C') {
-            stack.push(idx);
-            if(idx === n - 1) { // 삭제된 행이 마지막 행이 경우
-                idx -= 1;
-            } else {
-                idx += 1;
-            }
+	for (let i = 1; i < n; i++) {
+		const newNode = new Node(i, prev);
+		prev.next = newNode;
+		prev = newNode;
 
-            idx++;
-        } else if(cmd[0] === 'Z') {
-            stack.pop();
-        }
-    }
+		if (i === k) {
+			currentNode = newNode;
+		}
+	}
 
-    let deleted = Array(n).fill(false);
+	const delete_node = [];
 
-    for(const idx of stack) {
-        deleted[idx] = true;
-    }
+	cmds.map((cmd) => {
+		const [command, count] = cmd.split(' ');
 
-    let answer = '';
+		let i = 0;
 
-    for(const del of deleted) {
-        if(del) {
-            answer += 'X'
-        } else {
-            answer += '0'
-        }
-    }
+		if (command === 'U') {
+			let i = 0;
+			while (i < count) {
+				currentNode = currentNode.prev;
+				i++;
+			}
+		} else if (command === 'D') {
+			let i = 0;
+			while (i < count) {
+				currentNode = currentNode.next;
+				i++;
+			}
+		} else if (command === 'C') {
+			delete_node.push(currentNode);
 
-    console.log(answer);
+			const prev = currentNode.prev;
+			const next = currentNode.next;
 
-    return answer;
+			if (prev && next) {
+				prev.next = next;
+				next.prev = prev;
+				currentNode = next;
+			} else if (prev) {
+				prev.next = null;
+				currentNode = prev;
+			} else if (next) {
+				next.prev = null;
+				currentNode = next;
+			}
+		} else {
+			const least_delete_node = delete_node.pop();
+			const prev = least_delete_node.prev;
+			const next = least_delete_node.next;
+
+			if (prev) {
+				prev.next = least_delete_node;
+			}
+
+			if (next) {
+				next.prev = least_delete_node;
+			}
+		}
+	});
+
+	let answer = Array(n).fill('O');
+
+	delete_node.map((node) => {
+		answer[node.index] = 'X';
+	});
+
+	return answer.join('');
 }
 
-solution(8, 2, ["D 2","C","U 3","C","D 4","C","U 2","Z","Z"])
+solution(8, 2, ['D 2', 'C', 'U 3', 'C', 'D 4', 'C', 'U 2', 'Z', 'Z']);
