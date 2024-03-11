@@ -1,97 +1,83 @@
 #include <iostream>
+#include <queue>
 #include <vector>
 #include <algorithm>
-#include <string.h>
-#include <queue>
 using namespace std;
-int n, m, start_land, desti;
-vector<pair<int ,int>> graph[10001];
-bool visited[10001] = { false, };
 
-int answer = 0;
-int max_wei = 0;
-int min_limit = 1000000001;
+vector<pair<int, int>> graph[10001];
+bool visited[10001];
 
-bool bfs(int now, int limit) {
+void Init() {
+	for (int i = 1; i <= 10001; i++) {
+		visited[i] = false;
+	}
+}
+
+int bfs(int start, int end, int limit) {
+    Init();
+
     queue<int> q;
-    q.push(now);
+
+    visited[start] = true;
+
+    q.push(start);
+    
     while(!q.empty()) {
-        if(q.front() == desti) return true;
+        int now = q.front();
+
         q.pop();
+
+        if(now == end) {
+            return true;
+        }
 
         for(int i=0; i<graph[now].size(); i++) {
             int next = graph[now][i].first;
-            if(visited[next] == false && graph[now][i].second >= limit) {
+            int cost = graph[now][i].second;
+
+            if(cost <= limit && visited[next] == false) {
                 visited[next] = true;
                 q.push(next);
             }
-        }   
+        }
     }
-    
+
     return false;
 }
-// void dfs(int now, int limit) {
-//     if(now == desti) {
-//         cango = true;
-//         return;
-//     }
 
-//     for(int i=0; i<graph[now].size(); i++) {
-//         int next = graph[now][i].first;
-//         if(visited[next] == false && graph[now][i].second >= limit) {
-//             if(graph[now][i].second < min_limit) {
-//                 min_limit = graph[now][i].second;
-//             }
-//             visited[next] = true;
-//             dfs(next, limit);
-//         }
-//     }
-// }
-
-void binary_search(int start, int end) {
-    if(start > end) return;
-
-    int mid = (start + end) / 2;
-
-    // dfs(start_land, mid);
-    if(bfs(start_land, mid)) {
-        answer = mid;
-        binary_search(mid + 1, end);
-        memset(visited, false, sizeof(visited));
-    } else {
-        answer = mid;
-        binary_search(start , mid - 1);
-        memset(visited, false, sizeof(visited));
-    }
-    
-
-    // if(cango) {
-    //     if(min_limit > answer) answer = min_limit;
-    //     min_limit = 1000000001;
-    //     binary_search(mid + 1, end);
-    //     cango = false;
-    // } else {
-    //     min_limit = 1000000001;
-    //     binary_search(start , mid - 1);
-    // }
-}
-
-int main() { 
+int main() {
+    int n, m;
+    int max_cost;
     cin >> n >> m;
 
-
     for(int i=0; i<m; i++) {
-        int a, b, wei;
-        cin >> a >> b >> wei;
-        
-        if(wei > max_wei) {
-            max_wei = wei;
-        }
-        graph[a].push_back({ b, wei });
-        graph[b].push_back({ a, wei });
-    }
-    cin >> start_land >> desti;
+        int a, b, c;
+        cin >> a >> b >> c;
 
-    binary_search(0, max_wei);
-    cout << answer;
-}
+        graph[a].push_back(make_pair(b, c));
+        graph[b].push_back(make_pair(a, c));
+
+        max_cost = max(max_cost, c);
+    }
+
+    int start, end;
+    cin >> start >> end;
+
+    int left = 0;
+    int right = max_cost;
+
+    while(left <= right) {
+
+        int mid = (left + right) / 2;
+        
+        if(bfs(start, end, mid)) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    cout << right;
+
+    return 0;
+} 
