@@ -1,88 +1,244 @@
-#include <string>
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <algorithm>
-
 using namespace std;
 
-string solution(int n, int t, int m, vector<string> timetable) {
+int n, m;
+vector<vector<char>> map;
 
-    vector<int> times;
-    vector<int> bus_times;
+int dx[4] = { 0, 1, 0, -1 };
+int dy[4] = { 1, 0, -1, 0 };
+int answer = 999999999;
 
-    int start_time = 540;
-    bus_times.push_back(start_time);
-
-    for(int i = 0; i < n - 1; i++) {
-        bus_times.push_back(start_time + t * (i + 1));
+bool check_validate_path(int x, int y) {
+    if(x < 0 || x >= n || y < 0 || y >= m) {
+        return false;
     }
 
-    // timetable 숫자로 변경
-    for(int i=0; i<timetable.size(); i++) {
-        string time = timetable[i];
-
-        size_t pos = time.find(":");
-        string hour_str = time.substr(0, pos);
-        string min_str = time.substr(pos + 1);
-
-        int hour = stoi(hour_str);
-        int min = stoi(min_str);
-
-        int total_time = hour * 60 + min;
-
-        times.push_back(total_time);
+    if(map[x][y] != '.') {
+        return false;
     }
 
-    sort(times.begin(), times.end());
+    return true;
+}
 
-    int answer = 0;
-    int count = 0;
-    for(int i=0; i<bus_times.size(); i++) {
+bool hole_in_one(int x, int y) {
+    if(map[x][y] == 'O') {
+        return true;
+    }
 
-        int temp = 0;
-        int last = 0;
-        for(int j = count; j < times.size(); j++) {
-            if(bus_times[i] >= times[j] && temp < m) {
-                cout << bus_times[i] << "시 " << times[j] << "탑승" << "\n";
-                last = times[j];
-                count++;
-                temp++;
-            }
-        }
+    return false;
+}
 
-        // 마지막 버스일때
-        if(i == bus_times.size() - 1) {
-            if(temp < m) {
-                answer = bus_times[i];
-            } else if (temp == m) {
-                answer = last - 1;
-            }
+pair<int,int> move_red(int rx, int ry, int bx, int by, int dx, int dy) {
+    int nrx = rx;
+    int nry = ry;
+    while(check_validate_path(rx, ry) && rx != bx && ry != by) {
+        nrx = rx + dx;
+        nry = ry + dy;
+
+        if(hole_in_one(nrx, nry)) {
+            return make_pair(-1, -1);
         }
     }
+    return make_pair(nrx, nry);
+}
 
-    int hour_num = answer / 60;
-    int min_num = answer % 60;
+pair<int,int> move_blue(int rx, int ry, int bx, int by, int dx, int dy) {
+    int nbx = bx;
+    int nby = by;
+    while(check_validate_path(bx, by) && rx != bx && ry != by) {
+        nbx = bx + dx;
+        nby = by + dy;
 
-    string answer_hour;
-    string answer_min;
+        if(hole_in_one(nbx, nby)) {
+            return make_pair(-1, -1);
+        }
+    }
+    return make_pair(nbx, nby);
+}
 
-    if(hour_num < 10) {
-        answer_hour = "0" + to_string(hour_num);
-    } else {
-        answer_hour = to_string(hour_num);
+void dfs(int rx, int ry, int bx, int by, int depth) {
+
+    if(depth == 10) {
+        return;
     }
 
-    if(min_num < 10) {
-        answer_min = "0" + to_string(min_num);
-    } else {
-        answer_min = to_string(min_num);
-    }
+    for(int i=0; i<4; i++) {
+        if(i == 0) { // 오른쪽으로 갈때
+            // 오른쪽에 있는게 먼저
+            if(ry > by) {
+                pair<int,int> nr = move_red(rx, ry, bx, by, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
 
-    cout << answer_hour + ":" + answer_min;
-    return answer_hour + ":" + answer_min;
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+
+                pair<int,int> nb = move_blue(nrx, nry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            } else {
+                pair<int,int> nb = move_blue(rx, ry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+
+                pair<int,int> nr = move_red(rx, ry, nbx, nby, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            }
+
+        } else if(i == 1) { // 아래로 갈때
+            // 아래에 있는게 먼저
+            if(rx > bx) {
+                pair<int,int> nr = move_red(rx, ry, bx, by, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+
+                pair<int,int> nb = move_blue(nrx, nry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            } else {
+                pair<int,int> nb = move_blue(rx, ry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+                pair<int,int> nr = move_red(rx, ry, nbx, nby, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            }
+        } else if(i == 2) { // 왼쪽으로 갈때
+            // 왼쪽에 있는게 먼저
+            if(ry > by) {
+                pair<int,int> nb = move_blue(rx, ry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+
+                pair<int,int> nr = move_red(rx, ry, nbx, nby, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            } else {
+                pair<int,int> nr = move_red(rx, ry, bx, by, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+
+                pair<int,int> nb = move_blue(nrx, nry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            }
+        } else if(i == 3) { // 위로갈때
+            // 위에 있는게 먼저
+            if(rx > bx) {
+                pair<int,int> nb = move_blue(rx, ry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+
+                pair<int,int> nr = move_red(rx, ry, nbx, nby, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            } else {
+                pair<int,int> nr = move_red(rx, ry, bx, by, dx[i], dy[i]);
+                int nrx = nr.first;
+                int nry = nr.second;
+
+                if(nrx == -1 && nry == -1) {
+                    answer = min(answer, depth);
+                    return;
+                }
+                pair<int,int> nb = move_blue(nrx, nry, bx, by, dx[i], dy[i]);
+                int nbx = nb.first;
+                int nby = nb.second;
+                if(nbx == -1 && nby == -1) {
+                    return;
+                }
+                dfs(nrx, nry, nbx, nby, depth + 1);
+            }
+        }
+    }
 }
 
 int main() {
-    vector<string> v = { "23:59","23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59" };
-    solution(10, 60, 45, v);
+    // 가로 세로
+    cin >> n >> m;
+
+    // 시작 지점
+    int rx, ry, bx, by;
+
+    for(int i=0; i<n; i++) {
+        vector<char> temp;
+        for(int j=0; j<m; j++) {
+            char input;
+            cin >> input;
+            if(input == 'R') {
+                rx = i;
+                ry = j;
+            } else if(input == 'B') {
+                bx = i;
+                by = j;
+            }
+            temp.push_back(input);
+        }
+        map.push_back(temp);
+    }
+
+    dfs(rx, ry, bx, by, 0);
+
+    cout << answer;
 }
