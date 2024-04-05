@@ -70,6 +70,9 @@
     "typeinfo": "cpp",
     "list": "cpp",
     "xstring": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "xhash": "cpp",
+    "xlocinfo": "cpp",
+    "xtree": "cpp"
   }
 }
