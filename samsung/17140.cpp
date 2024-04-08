@@ -50,16 +50,15 @@
             v.push_back(temp[i].value);
             v.push_back(temp[i].count); 
         }
-
-        for(int i=0; i < v.size(); i++) {
-            map[row_index][i] = v[i];
+        
+        for(int i=0; i<100; i++) {
+            if(i < v.size()) {
+                map[row_index][i] = v[i];
+            } else {
+                map[row_index][i] = 0;
+            }
         }
         
-        for(int i=v.size(); i<101; i++) {
-            map[row_index][i] = 0;
-        }
-        
-        cout << v.size() << "\n";
         return v.size();
     }
 
@@ -92,18 +91,13 @@
             v.push_back(temp[i].value);
             v.push_back(temp[i].count); 
         }
-
-        for(int i=0; i<v.size(); i++) {
-            cout << v[i] << " ";
-        }
-        cout << "\n";
-
-        for(int i=0; i < v.size(); i++) {
-            map[i][col_index] = v[i];
-        }
         
-        for(int i=v.size(); i<101; i++) {
-            map[i][col_index] = 0;
+        for(int i=0; i<100; i++) {
+            if(i < v.size()) {
+                map[i][col_index] = v[i];
+            } else {
+                map[i][col_index] = 0;
+            }
         }
         
         return v.size();
@@ -131,7 +125,13 @@
         
 
         int time = 0;
-        while(time < 2) {
+        while(true) {
+
+            if(time > 100) {
+                cout << -1;
+                break;
+            }
+
             int max_row_size = 0;
             int max_col_size = 0;
 
@@ -140,22 +140,21 @@
                 break;
             }
 
-            cout << row_size << " " << col_size << "\n";
             if(row_size >= col_size) {
                 for(int i=0; i<row_size; i++) {
-                    max_row_size = max(max_row_size, sort_row(i));
+                    max_col_size = max(max_col_size, sort_row(i));
                 }
+                col_size = max_col_size;
             } else {
                 for(int i=0; i<col_size; i++) {
-                    max_col_size = max(max_col_size, sort_col(i));
+                    max_row_size = max(max_row_size, sort_col(i));
                 }
+                row_size = max_row_size;
             }
     
-            row_size = max_row_size;
-            col_size = max_col_size;
 
             time++; 
 
-            print_map();
+            // print_map();
         }
     }
