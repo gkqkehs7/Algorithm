@@ -125,8 +125,6 @@ bool cango(int map[4][4], int x, int y) {
 }
 
 void dfs(int origin_map[4][4], vector<Fish> origin_fishes, int x, int y, int direction) {
-
-
     for(int i=1; i<=3; i++) {
         int nx = x + dx[direction] * i;
         int ny = y + dy[direction] * i;
