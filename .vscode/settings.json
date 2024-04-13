@@ -73,6 +73,9 @@
     "xutility": "cpp",
     "xhash": "cpp",
     "xlocinfo": "cpp",
-    "xtree": "cpp"
+    "xtree": "cpp",
+    "__verbose_abort": "cpp",
+    "charconv": "cpp",
+    "variant": "cpp"
   }
 }

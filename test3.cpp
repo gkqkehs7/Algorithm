@@ -3,22 +3,34 @@
 using namespace std;
 
 int n = 5;
+int dx[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
+int dy[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
 int map[5][5] = { {1,2,0,0,5}, {0,0,8,9,10}, {11,12,13,0,0}, {16,17,0,19,0}, {21,22,23,24,25}};
 
-int gravity() {
-    for(int i=n-1; i>=0; i--) {
-        for(int j=0; j<n; j++) {
-            if(map[i][j] == 0) {
-               	int x = i;
-				int y = j;
-				while (x > 0 && map[x][y] == 0) x--; // 0이 아닌 곳까지 올라가서
-                map[i][j] = map[x][y];  // 그 블럭 가져오기
-                map[x][y] = 0; // 그 위치는 빈칸 처리
-            }
+bool check_path(int x, int y) {
+    if(x >= n || x < 0 || y >= n || y < 0) {
+        return false;
+    }
+
+    return true;
+}
+
+int move(int x, int y, int len, int direction) {
+    int move_len = n % ((len - 1) * 2);
+
+    int nx = x;
+    int ny = y;
+    int d = direction;
+
+    for(int i=0; i<move_len; i++) {
+        nx = x + dx[d];
+        ny = y + dy[d];
+
+        if(!check_path(nx, ny)) {
+            // 
         }
     }
 } 
-
 
 void print_map() {
     for(int i=0; i<5; i++) {
@@ -31,9 +43,11 @@ void print_map() {
 }
 
 int main() {
+
+    map[2][3] = -1;
     print_map();
     
-    gravity();
+    move(1000);
 
     print_map();
 }
