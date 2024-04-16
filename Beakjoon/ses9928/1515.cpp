@@ -1,26 +1,27 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    
     string s;
     cin >> s;
 
-    int now = 0;
-    int prev = s[0] - '0';
-    int now_count = 1;
+    int ptr = 0;
+    for(int i=1; i<=30000; i++) {
+        string str_num = to_string(i);
+        for(int j=0; j<str_num.length(); j++) {
+            if(str_num[j] == s[ptr]) {
+                ptr++;
+            }
 
-    for(int i=1; i<s.length(); i++) {
-        if(s[i] - '0' > prev) {
-            now_count++;
-            prev = s[i] - '0';
-            continue;
-        } else { // 줄어든 경우
-            if(s[i] - '0' == now && ) { // 줄어들었는데 앞에 자리수와 같고
-
-            } else{
-                now++;
+            if(ptr == s.length()) {
+                cout << str_num;
+                return 0;
             }
         }
     }
+    return 0;
 }
